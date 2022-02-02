@@ -6,7 +6,7 @@ import HeaderApp from "./components/header/HeaderApp.vue";
 
 <template id="app" class="text-center">
   <header-app />
-  <router-view  style="background-color: green;"/>
+  <router-view/>
 </template>
 
 <style>

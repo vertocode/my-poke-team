@@ -6,24 +6,26 @@ defineProps<{ msg: string }>()
 const count = ref(0)
 </script>
 
-<template>
-  <router-link to="createteam">test</router-link>
+<template >
+  <div class="row p-5">
+    <div class="col-4">
+      <button type="button" class="btn text-light mt-2">Create Team</button>
+    </div>
+    <div class="col-4">
+      <h2 class="text-center title">My Teams</h2>
+    </div>
+    <div class="col-4 text-center mt-2">
+      <input>
+    </div>
+  </div>
 </template>
 
 <style scoped>
-a {
-  color: #42b983;
+.title {
+  font-size: 1.7em;
+  font-weight: bolder;
 }
-
-label {
-  margin: 0 0.5em;
-  font-weight: bold;
-}
-
-code {
-  background-color: #eee;
-  padding: 2px 4px;
-  border-radius: 4px;
-  color: #304455;
+button {
+  background-color: #3DADFF;
 }
 </style>
