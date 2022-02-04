@@ -3,8 +3,8 @@ import { computed } from "vue";
 import { useRoute } from "vue-router";
 
 const data = {
-  hello_name: 'Hello Everton',
-  my_teams: 'My Team',
+  helloName: 'Hello Everton',
+  myTeams: 'My Team',
   pokedex: 'Pokedex'
 }
 const routeActual = computed(() => {
@@ -23,12 +23,12 @@ const routeActual = computed(() => {
         </svg>
       </div>
       <div class="col-10">
-        <h2 class="text-start pt-1"><strong>{{ data.hello_name }}</strong></h2>
+        <h2 class="text-start pt-1"><strong>{{ data.helloName }}</strong></h2>
       </div>
     </div>
     <div class="col-6 row p-1">
       <div class="col-8">
-        <h2 class="text-end pt-1"><router-link to="/" class="link-nav" :class="{ 'link-active': routeActual === '/' }">{{ data.my_teams }}</router-link></h2>
+        <h2 class="text-end pt-1"><router-link to="/" class="link-nav" :class="{ 'link-active': routeActual === '/' }">{{ data.myTeams }}</router-link></h2>
       </div>
       <div class="col-2">
         <h2 class="text-start pt-1"><router-link to="/pokelist" class="link-nav" :class="{ 'link-active': routeActual === '/pokelist' }">{{ data.pokedex }}</router-link></h2>

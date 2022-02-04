@@ -10,6 +10,11 @@ const routes = [
         path: '/createteam',
         name: 'CreateTeam',
         component: () => import('../views/CreateTeam.vue')
+    },
+    {
+        path: '/pokelist',
+        name: 'Pokedex',
+        component: () => import('../views/Pokedex.vue')
     }
 ]
 

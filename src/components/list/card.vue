@@ -1,12 +1,10 @@
 <script lang="ts" setup>
 defineProps<{
-  pokemon_id: number
+  pokemon_index: number
   pokemon_name: string
   default_name: string
   type_pokemon: string
 }>()
-const emit = defineEmits(['delete'])
-
 </script>
 
 <template>
@@ -20,7 +18,7 @@ const emit = defineEmits(['delete'])
       <li class="list-group-item">Type: {{ type_pokemon }}</li>
     </ul>
     <div class="card-body text-center">
-      <button class="btn-sm btn-danger" @click="emit('delete', 2)">Delete Pokemon</button>
+      <button class="btn-sm btn-danger" @click="$emit('delete', pokemon_index)">Delete Pokemon</button>
     </div>
   </div>
 </template>

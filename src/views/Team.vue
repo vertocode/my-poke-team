@@ -1,49 +1,48 @@
 <script setup lang="ts">
 import card from '../components/list/card.vue'
-import {reactive, ref} from "vue";
+import {reactive} from "vue";
 
-const deletedPokemon = (e) => {
-  console.log('t')
-  console.log(data.pokemons)
-  data.pokemons.splice(e,1)
+const deletedPokemon = (e: number) => {
+  console.log(e)
+  data.pokemons.splice(e, 1)
 }
-const data = reactive({
-  button_placeholder: 'Add Pokemon',
-  title_my_team: 'My Team',
+const data = reactive<{buttonPlaceholder: string; titleMyTeam: string; pokemons: Record<string, any>[]}> ({
+  buttonPlaceholder: 'Add Pokemon',
+  titleMyTeam: 'My Team',
   pokemons: [
     {
       id: 0,
-      pokemon_name: 'spark',
+      pokemon_name: 'spark1',
       default_name: 'pikachu',
       type_pokemon: 'trovão'
     },
     {
       id: 1,
-      pokemon_name: 'spark',
+      pokemon_name: 'spar2',
       default_name: 'pikachu',
       type_pokemon: 'trovão'
     },
     {
       id: 2,
-      pokemon_name: 'spark',
+      pokemon_name: 'spark3',
       default_name: 'pikachu',
       type_pokemon: 'trovão'
     },
     {
       id: 3,
-      pokemon_name: 'spark',
+      pokemon_name: 'spark4',
       default_name: 'pikachu',
       type_pokemon: 'trovão'
     },
     {
       id: 4,
-      pokemon_name: 'spark',
+      pokemon_name: 'spark5',
       default_name: 'pikachu',
       type_pokemon: 'trovão'
     },
     {
       id: 5,
-      pokemon_name: 'spark',
+      pokemon_name: 'spark6',
       default_name: 'pikachu',
       type_pokemon: 'trovão'
     }
@@ -59,8 +58,15 @@ const data = reactive({
   </div>
   <div class="list-group">
     <div class="row">
-      <div class="col-4" v-if="data.pokemons.length > 0" v-for="pokemon in data.pokemons">
-        <card :pokemon_id="pokemon.id" :pokemon_name="pokemon.pokemon_name" :default_name="pokemon.default_name" :type_pokemon="pokemon.type_pokemon" @delete="deletedPokemon(e)"></card>
+      <div class="col-4" v-if="data.pokemons.length > 0" v-for="(pokemon, index) in data.pokemons">
+        <card
+            :pokemon_index="index"
+            :pokemon_name="pokemon.pokemon_name"
+            :default_name="pokemon.default_name"
+            :type_pokemon="pokemon.type_pokemon"
+            @delete="deletedPokemon"
+        >
+        </card>
       </div>
     </div>
   </div>
