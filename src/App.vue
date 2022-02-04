@@ -6,13 +6,12 @@ import HeaderApp from "./components/header/HeaderApp.vue";
 
 <template id="app" class="text-center">
   <header-app />
-  <router-view  style="background-color: green;"/>
+  <router-view/>
 </template>
 
 <style>
 #app {
-  background-color: #E5E5E5;
-  height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
+  height: 100%;
 }
 </style>
