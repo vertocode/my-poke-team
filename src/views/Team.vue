@@ -53,7 +53,7 @@ const data = reactive<{buttonPlaceholder: string; titleMyTeam: string; pokemons:
 <template >
   <div class="p-4">
     <div class="text-center">
-      <h2 class="text-center title ">{{ data.title_my_team }}</h2>
+      <h2 class="text-center title ">{{ data.titleMyTeam }}</h2>
     </div>
   </div>
   <div class="list-group">
