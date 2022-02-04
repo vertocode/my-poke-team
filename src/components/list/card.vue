@@ -9,7 +9,7 @@ defineProps<{
 
 <template>
   <div class="card m-3 text-center">
-    <img class="card-img-top" src="src/assets/logo.png" alt="Card image cap">
+    <img class="card-img-top" src="https://www.pngmart.com/files/2/Pikachu-PNG-Transparent-Image.png" alt="Card image cap">
     <div class="card-body">
       <h5 class="card-title">{{ pokemon_name }}</h5>
     </div>
