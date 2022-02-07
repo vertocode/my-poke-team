@@ -1,3 +1,21 @@
+<script setup lang="ts">
+import {useStore} from "vuex";
+import { computed, onMounted } from "vue";
+
+const store = useStore()
+
+const AllInfosPokemon = computed(() => {
+  return store.state.allPokemons
+})
+
+onMounted(() => {
+   store.commit('clearPokemons', [])
+  for (let n = 0; n < 500; n++) {
+    store.dispatch('getApi', n)
+  }
+})
+</script>
+
 <template>
   <table class="table table-striped table-hover">
     <thead>
@@ -8,24 +26,25 @@
       <th scope="col"></th>
     </tr>
     </thead>
-    <tbody>
+    <tbody v-for="(pokemon) in AllInfosPokemon">
     <tr>
-      <th scope="row">1</th>
-      <td>Pikachu</td>
-      <td>Otto</td>
-      <td class="text-center"><button class="btn btn-primary">See more details</button></td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Bulbassour</td>
-      <td>Thornton</td>
-      <td class="text-center"><button class="btn btn-primary">See more details</button></td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colspan="2">Charmander</td>
+      <th scope="row">{{ pokemon.id }}</th>
+      <td>
+        <img
+            :src="pokemon.sprites.front_default"
+            alt="Card image cap"
+        >
+        {{ pokemon.name }}
+      </td>
+      <td>{{ pokemon.types[0].type.name }}</td>
       <td class="text-center"><button class="btn btn-primary">See more details</button></td>
     </tr>
     </tbody>
   </table>
 </template>
+
+<style>
+img {
+  width: 30px;
+}
+</style>
