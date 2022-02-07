@@ -86,7 +86,7 @@ export default createStore({
         }
     },
     actions: {
-        async getApi({commit}, payload) {
+        getApi({commit}, payload) {
             const url = `https://pokeapi.co/api/v2/pokemon/${payload}`
             axios(url).then(response => {
                 commit('setPokemons', response.data)
