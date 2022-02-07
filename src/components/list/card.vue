@@ -1,24 +1,41 @@
 <script lang="ts" setup>
+import { useStore } from "vuex";
+
+const store = useStore()
+
+const changeName = (teamId: number, pokeId: number) => {
+  const newName = prompt('What will be the new name of this pokemon?')
+  store.commit('editName', { teamId, pokeId, newName })
+}
+
 defineProps<{
-  pokemon_index: number
-  pokemon_name: string
-  default_name: string
-  type_pokemon: string
+  teamId: number
+  pokemonIndex: number
+  pokemonName: string
+  defaultName: string
+  typePokemon: string
 }>()
 </script>
 
 <template>
-  <div class="card m-3 text-center">
+  <div class="card m-3 p-3 text-center">
     <img class="card-img-top" src="https://www.pngmart.com/files/2/Pikachu-PNG-Transparent-Image.png" alt="Card image cap">
     <div class="card-body">
-      <h5 class="card-title">{{ pokemon_name }}</h5>
+      <h5 class="card-title name-pokemon">{{ pokemonName }}
+        <button
+            class="btn btn-sm btn-outline-secondary"
+            @click="changeName(teamId, pokemonIndex)"
+        >
+          Edit
+        </button>
+      </h5>
     </div>
-    <ul class="list-group list-group-flush text-start">
-      <li class="list-group-item">Default name: {{ default_name }}</li>
-      <li class="list-group-item">Type: {{ type_pokemon }}</li>
+    <ul class="text-start">
+      <li>Default name: {{ defaultName }}</li>
+      <li>Type: {{ typePokemon }}</li>
     </ul>
     <div class="card-body text-center">
-      <button class="btn-sm btn-danger" @click="$emit('delete', pokemon_index)">Delete Pokemon</button>
+      <button class="btn-sm btn-danger" @click="$emit('delete', pokemonIndex)">Delete Pokemon</button>
     </div>
   </div>
 </template>
@@ -33,5 +50,8 @@ defineProps<{
   margin: auto;
   height: 80px;
   width: 90px;
+}
+ul {
+  list-style-type: none;
 }
 </style>

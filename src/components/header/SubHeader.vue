@@ -4,7 +4,7 @@ import { useRoute } from "vue-router";
 
 const data = {
   helloName: 'Hello Everton',
-  myTeams: 'My Team',
+  myTeams: 'My Teams',
   pokedex: 'Pokedex'
 }
 const routeActual = computed(() => {
