@@ -5,11 +5,11 @@ import { useStore } from "vuex";
 const store = useStore();
 
 defineProps<{
-  teamId: number
+  teamId: any
 }>()
 
 const deletePokemons = (teamId: object, pokeId: number) => {
-  store.commit('deletePokemon', {teamId: teamId, pokeId: pokeId})
+  store.commit('deletePokemon', {teamId, pokeId})
 }
 
 </script>
