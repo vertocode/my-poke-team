@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import card from '../list/card.vue'
+import leftArrow from '../../assets/images/arrow-left.svg'
 import { useStore } from "vuex";
 
 const store = useStore();
@@ -17,7 +18,7 @@ const deletePokemons = (teamId: object, pokeId: number) => {
 <template >
   <div class="p-4 row">
     <div class="col-3">
-      <img @click="$emit('back')" class="arrow-left " src="src/assets/images/arrow-left.svg" alt="<- Back">
+      <img @click="$emit('back')" class="arrow-left" :src="leftArrow" alt="<- Back">
     </div>
     <div class="col-6">
       <h2 class="text-center title">{{ store.state.teams[teamId].name }}</h2>
