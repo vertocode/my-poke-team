@@ -9,10 +9,15 @@ defineProps<{
   teamId: any
 }>()
 
+const editTeamName = (teamId: number) => {
+  const newName = prompt('What will be the new name of this team?')
+  store.commit('editTeamName', { teamId, newName })
+  console.log(teamId, newName)
+}
+
 const deletePokemons = (teamId: object, pokeId: number) => {
   store.commit('deletePokemon', {teamId, pokeId})
 }
-
 </script>
 
 <template >
@@ -21,7 +26,15 @@ const deletePokemons = (teamId: object, pokeId: number) => {
       <img @click="$emit('back')" class="arrow-left" :src="leftArrow" alt="<- Back">
     </div>
     <div class="col-6">
-      <h2 class="text-center title">{{ store.state.teams[teamId].name }}</h2>
+      <h2 class="text-center title">
+        {{ store.state.teams[teamId].name }}
+        <button
+            class="btn btn-sm btn-outline-secondary"
+            @click="editTeamName(teamId)"
+        >
+          Edit
+        </button>
+      </h2>
     </div>
     <div class="col-3 text-center">
       <router-link to="/pokelist"><button class="btn-lg btn-primary">Add Pokemon</button></router-link>
@@ -33,7 +46,6 @@ const deletePokemons = (teamId: object, pokeId: number) => {
         <card
             :teamId="teamId"
             :pokemonIndex="index"
-            :pokemonName="pokemon.pokemon_name"
             :defaultName="pokemon.default_name"
             :typePokemon="pokemon.type_pokemon"
             @delete="deletePokemons(teamId, index)"

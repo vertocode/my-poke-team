@@ -5,11 +5,12 @@ const store = useStore()
 
 const changeName = (teamId: number, pokeId: number) => {
   const newName = prompt('What will be the new name of this pokemon?')
-  store.commit('editName', { teamId, pokeId, newName })
+  store.commit('editNamePokemon', { teamId, pokeId, newName })
 }
 
 defineProps<{
   teamId: number
+  srcImg: string
   pokemonIndex: number
   pokemonName: string
   defaultName: string
@@ -19,7 +20,7 @@ defineProps<{
 
 <template>
   <div class="card m-3 p-3 text-center">
-    <img class="card-img-top" src="https://www.pngmart.com/files/2/Pikachu-PNG-Transparent-Image.png" alt="Card image cap">
+    <img class="card-img-top" :src="srcImg" alt="Card image cap">
     <div class="card-body">
       <h5 class="card-title name-pokemon">{{ pokemonName }}
         <button
@@ -35,7 +36,7 @@ defineProps<{
       <li>Type: {{ typePokemon }}</li>
     </ul>
     <div class="card-body text-center">
-      <button class="btn-sm btn-danger" @click="$emit('delete', pokemonIndex)">Delete Pokemon</button>
+      <button class="btn-sm btn-danger" @click="$emit('delete')">Delete Pokemon</button>
     </div>
   </div>
 </template>
@@ -48,8 +49,8 @@ defineProps<{
 }
 .card-img-top {
   margin: auto;
-  height: 80px;
-  width: 90px;
+  height: 150px;
+  width: 150px;
 }
 ul {
   list-style-type: none;

@@ -12,37 +12,43 @@ export default createStore({
                         id: 0,
                         pokemon_name: 'spark1',
                         default_name: 'pikachu',
-                        type_pokemon: 'trovão'
+                        type_pokemon: 'trovão',
+                        srcImg: ''
                     },
                     {
                         id: 1,
                         pokemon_name: 'spark2',
                         default_name: 'pikachu',
-                        type_pokemon: 'trovão'
+                        type_pokemon: 'trovão',
+                        srcImg: ''
                     },
                     {
                         id: 2,
                         pokemon_name: 'spark3',
                         default_name: 'pikachu',
-                        type_pokemon: 'trovão'
+                        type_pokemon: 'trovão',
+                        srcImg: ''
                     },
                     {
                         id: 3,
                         pokemon_name: 'spark4',
                         default_name: 'pikachu',
-                        type_pokemon: 'trovão'
+                        type_pokemon: 'trovão',
+                        srcImg: ''
                     },
                     {
                         id: 4,
                         pokemon_name: 'spark5',
                         default_name: 'pikachu',
-                        type_pokemon: 'trovão'
+                        type_pokemon: 'trovão',
+                        srcImg: ''
                     },
                     {
                         id: 5,
                         pokemon_name: 'spark6',
                         default_name: 'pikachu',
-                        type_pokemon: 'trovão'
+                        type_pokemon: 'trovão',
+                        srcImg: ''
                     }
                 ]
             },
@@ -54,18 +60,21 @@ export default createStore({
                         id: 0,
                         pokemon_name: 'disney1',
                         default_name: 'pikachu',
-                        type_pokemon: 'trovão'
+                        type_pokemon: 'trovão',
+                        srcImg: ''
                     },
                     {
                         id: 1,
                         pokemon_name: 'disney2',
                         default_name: 'pikachu',
-                        type_pokemon: 'trovão'
+                        type_pokemon: 'trovão',
+                        srcImg: ''
                     },
                 ],
             }
         ],
-        allPokemons: []
+        allPokemons: [],
+        createTeam: []
     },
     mutations: {
         deletePokemon(state: any, payLoad: any) {
@@ -74,7 +83,11 @@ export default createStore({
         deleteTeam(state: any, teamId: number) {
             state.teams.splice(teamId, 1)
         },
-        editName(state: any, payLoad: any) {
+        editTeamName(state: any, payLoad: any) {
+            console.log(payLoad)
+            state.teams[payLoad.teamId].name = payLoad.newName
+        },
+        editNamePokemon(state: any, payLoad: any) {
             console.log(state.teams[payLoad.teamId].pokemons[payLoad.pokeId])
             state.teams[payLoad.teamId].pokemons[payLoad.pokeId].pokemon_name = payLoad.newName
         },
@@ -83,9 +96,16 @@ export default createStore({
         },
         clearPokemons(state, payload) {
             state.allPokemons = payload
-        }
+        },
+        setNewTeam(state, payload) {
+            state.createTeam[payload.id] = payload
+        },
     },
     actions: {
+        deleteNewTeam({state}, payload) {
+            console.log(payload)
+            state.createTeam.splice(payload.id+1, 1)
+        },
         getApi({commit}, payload) {
             const url = `https://pokeapi.co/api/v2/pokemon/${payload}`
             axios(url).then(response => {

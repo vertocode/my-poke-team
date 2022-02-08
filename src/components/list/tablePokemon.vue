@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import {useStore} from "vuex";
-import { computed, onMounted } from "vue";
+
+import { useStore } from "vuex";
+import { computed } from "vue";
 
 const store = useStore()
 
@@ -8,12 +9,6 @@ const AllInfosPokemon = computed(() => {
   return store.state.allPokemons
 })
 
-onMounted(() => {
-   store.commit('clearPokemons', [])
-  for (let n = 0; n < 500; n++) {
-    store.dispatch('getApi', n)
-  }
-})
 </script>
 
 <template>
@@ -45,6 +40,6 @@ onMounted(() => {
 
 <style>
 img {
-  width: 30px;
+  width: 80px;
 }
 </style>

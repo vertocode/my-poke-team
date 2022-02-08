@@ -10,7 +10,7 @@ const deleteTeam = (teamId: number) => {
 </script>
 
 <template>
-  <table class="table table-bordered table-dark text-center" v-if="store.state.teams.length > 0">
+  <table class="table table-striped text-center" v-if="store.state.teams.length > 0">
     <thead>
     <tr>
       <th scope="col">Id</th>
@@ -34,7 +34,7 @@ const deleteTeam = (teamId: number) => {
     </tbody>
   </table>
   <div v-else class="text-center mt-5">
-    <h1 >No teams found</h1>
+    <h1>No teams found</h1>
     <router-link to="/createteam"><button class="btn btn-outline-primary">Create Team</button></router-link>
   </div>
 </template>
