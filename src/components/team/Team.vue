@@ -9,14 +9,19 @@ defineProps<{
   teamId: any
 }>()
 
+const changeName = (teamId: number, pokeId: number) => {
+  const newName = prompt('What will be the new name of this pokemon?')
+  store.commit('editNamePokemon', { teamId, pokeId, newName })
+}
+
 const editTeamName = (teamId: number) => {
+  console.log(teamId)
   const newName = prompt('What will be the new name of this team?')
   store.commit('editTeamName', { teamId, newName })
-  console.log(teamId, newName)
 }
 
 const deletePokemons = (teamId: object, pokeId: number) => {
-  store.commit('deletePokemon', {teamId, pokeId})
+  store.commit('deletePokemon', { teamId, pokeId })
 }
 </script>
 
@@ -42,13 +47,15 @@ const deletePokemons = (teamId: object, pokeId: number) => {
   </div>
   <div class="list-group">
     <div class="row">
-      <div class="col-4" v-if="store.state.teams[teamId].pokemons.length > 0" v-for="(pokemon, index) in store.state.teams[teamId].pokemons">
+      <div class="col-4" v-if="store.state.teams[store.state.teamOpen].pokemons.length > 0" v-for="(pokemon, index) in store.state.teams[store.state.teamOpen].pokemons">
         <card
-            :teamId="teamId"
-            :pokemonIndex="index"
+            :pokemonIndex="pokemon.id"
             :defaultName="pokemon.default_name"
             :typePokemon="pokemon.type_pokemon"
+            :pokemon_name="pokemon.pokemon_name"
+            :srcImg="pokemon.srcImg"
             @delete="deletePokemons(teamId, index)"
+            @editPokemon="changeName(teamId, index)"
         >
         </card>
       </div>

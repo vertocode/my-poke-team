@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { useStore } from "vuex";
+import { reactive } from "vue";
 
-const store = useStore();
+const store = reactive(useStore())
 
 const deleteTeam = (teamId: number) => {
   store.commit('deleteTeam', teamId)

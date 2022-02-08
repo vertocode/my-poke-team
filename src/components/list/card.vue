@@ -3,11 +3,6 @@ import { useStore } from "vuex";
 
 const store = useStore()
 
-const changeName = (teamId: number, pokeId: number) => {
-  const newName = prompt('What will be the new name of this pokemon?')
-  store.commit('editNamePokemon', { teamId, pokeId, newName })
-}
-
 defineProps<{
   teamId: number
   srcImg: string
@@ -25,7 +20,7 @@ defineProps<{
       <h5 class="card-title name-pokemon">{{ pokemonName }}
         <button
             class="btn btn-sm btn-outline-secondary"
-            @click="changeName(teamId, pokemonIndex)"
+            @click="$emit('editPokemon', teamId)"
         >
           Edit
         </button>
@@ -56,3 +51,4 @@ ul {
   list-style-type: none;
 }
 </style>
+
