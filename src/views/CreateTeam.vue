@@ -16,8 +16,9 @@ const newTeam: any = computed(() => {
 
 const allPokemonSelected: Array<number> = reactive([])
 
-const saveTeam = (payload: object, array: Array<object>) => {
-
+const saveTeam = () => {
+  // TODO Implement
+  store.dispatch('saveTeam', {id: 3, name: 'test'})
 }
 const deletePokemon = (id: any) => {
   allPokemonSelected.findIndex((element, index) => {

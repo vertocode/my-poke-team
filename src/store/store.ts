@@ -99,12 +99,20 @@ export default createStore({
         },
         setNewTeam(state, payload) {
             state.createTeam[payload.id] = payload
-        },
+        }
     },
     actions: {
         deleteNewTeam({state}, payload) {
             console.log(payload)
             state.createTeam.splice(payload.id+1, 1)
+        },
+        saveTeam({state}, payload) {
+            state.teams.push({
+                id: payload.id,
+                name: payload.name,
+                pokemons: [state.createTeam]
+            })
+            console.log(state.teams)
         },
         getApi({commit}, payload) {
             const url = `https://pokeapi.co/api/v2/pokemon/${payload}`
