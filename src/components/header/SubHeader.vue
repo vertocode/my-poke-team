@@ -5,7 +5,6 @@ import { useRoute } from "vue-router";
 const data = {
   helloName: 'Hello Everton',
   myTeams: 'My Teams',
-  pokedex: 'Pokedex'
 }
 const routeActual = computed(() => {
   const route = useRoute()
@@ -15,7 +14,7 @@ const routeActual = computed(() => {
 </script>
 <template class="sub-header">
   <nav class="navbar navbar-light row" style="background-color: #FFFFFF;">
-    <div class="col-6 row">
+    <div class="col-8 row">
       <div class="col-2 text-end mt-2">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="red" class="bi-person-circle" viewBox="0 0 16 16">
           <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
@@ -26,13 +25,8 @@ const routeActual = computed(() => {
         <h2 class="text-start pt-1"><strong>{{ data.helloName }}</strong></h2>
       </div>
     </div>
-    <div class="col-6 row p-1">
-      <div class="col-8">
-        <h2 class="text-end pt-1"><router-link to="/" class="link-nav" :class="{ 'link-active': routeActual === '/' }">{{ data.myTeams }}</router-link></h2>
-      </div>
-      <div class="col-2">
-        <h2 class="text-start pt-1"><router-link to="/pokelist" class="link-nav" :class="{ 'link-active': routeActual === '/pokelist' }">{{ data.pokedex }}</router-link></h2>
-      </div>
+    <div class="col-4 row p-1">
+        <h2 class="text-center pt-1"><router-link to="/" class="link-nav" :class="{ 'link-active': routeActual === '/' }">{{ data.myTeams }}</router-link></h2>
     </div>
   </nav>
 </template>

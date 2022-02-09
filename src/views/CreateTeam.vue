@@ -3,6 +3,7 @@
 import { computed, reactive } from "vue";
 import { useStore } from "vuex";
 import Card from "../components/list/card.vue";
+import { router } from "../router";
 
 const store = useStore()
 
@@ -15,21 +16,27 @@ const createdTeam: any = reactive([])
 const allPokemonSelected: Array<number> = reactive([])
 let pokeName: any = reactive([])
 
-const setDefaultName: any = (id: number) => {
+const setPokemonName: any = (id: number) => {
   pokeName[id] = prompt('What will be the new name of this pokemon?')
-  console.log(pokeName, createdTeam)
+  createdTeam[id-1].pokemon_name = pokeName[id]
 }
 
 const saveTeam = () => {
   const name: any = document.querySelector('.teamNameInput')
-  store.commit('saveTeam', { id: 3, name: name.value, pokemons: createdTeam })
+  if (createdTeam.length === 0) {
+    alert('To save a team it is necessary to add at least 1 pokemon.')
+  } else if (name.value === '') {
+    alert('Give a name for your pokemon team')
+  } else {
+    store.commit('saveTeam', { id: 3, name: name.value, pokemons: createdTeam })
+    router.push({path: '/'})
+  }
 }
 const deletePokemon = (id: any) => {
   allPokemonSelected.findIndex((element, index) => {
     if (element === id) {
       allPokemonSelected.splice(index, 1)
-      createdTeam.splice(id, 1)
-      console.log(createdTeam)
+      createdTeam.splice(index, 1)
     }
   })
 }
@@ -40,7 +47,6 @@ const selectPokemon = (payload: any) => {
   } else {
     allPokemonSelected.push(payload.id)
     createdTeam.push(payload)
-    console.log(payload)
   }
 }
 </script>
@@ -91,9 +97,9 @@ const selectPokemon = (payload: any) => {
             <div class="row">
               <card
                   v-for="(card) in allPokemonSelected"
-                  @editPokemon="setDefaultName(card)"
+                  @editPokemon="setPokemonName(card)"
                   @delete="deletePokemon(card)"
-                  :pokemon-name="pokeName[card]"
+                  :pokemonName="pokeName[card]"
                   :defaultName="AllInfosPokemon[card-1].name"
                   :typePokemon="AllInfosPokemon[card-1].types[0].type.name"
                   :srcImg="AllInfosPokemon[card-1].sprites.front_default"

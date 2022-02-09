@@ -11,11 +11,6 @@ const routes = [
         name: 'CreateTeam',
         component: () => import('../views/CreateTeam.vue')
     },
-    {
-        path: '/pokelist',
-        name: 'Pokedex',
-        component: () => import('../views/Pokedex.vue')
-    }
 ]
 
 export const router = createRouter({

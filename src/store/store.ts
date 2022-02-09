@@ -21,6 +21,7 @@ export default createStore({
         editNamePokemon(state: any, payLoad: any) {
             console.log(state.teams[payLoad.teamId].pokemons[payLoad.pokeId])
             state.teams[payLoad.teamId].pokemons[payLoad.pokeId].pokemon_name = payLoad.newName
+            console.log(state.teams[payLoad.teamId].pokemons[payLoad.pokeId])
         },
         setPokemons(state, payload) {
             state.allPokemons.push(payload)

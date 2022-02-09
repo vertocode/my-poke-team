@@ -52,7 +52,7 @@ const deletePokemons = (teamId: object, pokeId: number) => {
             :pokemonIndex="pokemon.id"
             :defaultName="pokemon.default_name"
             :typePokemon="pokemon.type_pokemon"
-            :pokemon_name="pokemon.pokemon_name"
+            :pokemonName="pokemon.pokemon_name"
             :srcImg="pokemon.srcImg"
             @delete="deletePokemons(teamId, index)"
             @editPokemon="changeName(teamId, index)"
