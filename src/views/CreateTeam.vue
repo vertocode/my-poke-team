@@ -1,20 +1,27 @@
 <script setup lang="ts">
-
-import { computed, reactive } from "vue";
-import { useStore } from "vuex";
 import Card from "../components/list/card.vue";
+import ModalPokemon from '../components/modal/ModalPokemon.vue'
+import { computed, reactive, ref } from "vue";
+import { useStore } from "vuex";
 import { router } from "../router";
 
 const store = useStore()
 
 const AllInfosPokemon: any = computed(() => {
-  console.log(store.state.allPokemons)
   return store.state.allPokemons
 })
 
 const createdTeam: any = reactive([])
 const allPokemonSelected: Array<number> = reactive([])
+const toggleModal: any = ref(false)
+let pokeOpenDetails: any = reactive({index: 0})
 let pokeName: any = reactive([])
+
+const toggleModalButton = (pokeId: number): void => {
+  toggleModal.value = !toggleModal.value
+  pokeOpenDetails.index = pokeId - 1
+  console.log(pokeOpenDetails)
+}
 
 const setPokemonName: any = (id: number) => {
   pokeName[id] = prompt('What will be the new name of this pokemon?')
@@ -53,6 +60,24 @@ const selectPokemon = (payload: any) => {
 
 <template>
   <div id="createTeam">
+    <!-- MODAL -->
+    <ModalPokemon
+        v-if="toggleModal"
+        @closeModal="toggleModalButton"
+    >
+      <div class="pokemon-modal">
+        <img
+            class="img-modal"
+            :src="AllInfosPokemon[pokeOpenDetails.index].sprites.front_default"
+            alt="Card image cap"
+        >
+      </div>
+      <div>
+        <h1 class="card-title">{{ AllInfosPokemon[pokeOpenDetails.index].name }}</h1>
+        <span class="info-pokemon d-block" v-for="(ability, index) in AllInfosPokemon[pokeOpenDetails.index].abilities">{{ index+1 }}° Ability: {{ ability.ability.name }}</span>
+      </div>
+    </ModalPokemon>
+    <!-- CREATE TEAM -->
       <div class="row mx-md-n5">
         <div class="col-12 text-center">
           <h4 class="mt-4">What will be the name of your pokemon team?</h4>
@@ -73,23 +98,30 @@ const selectPokemon = (payload: any) => {
           <div class="col-6">
             <ul class="list-group item-list" v-for="pokemon in AllInfosPokemon">
               <li class="list-group-item" :id="`item-${pokemon.id}-pokemon`">
-                <button
-                    class="btn btn-primary"
-                    @click="selectPokemon({
+                <div class="">
+                  <button
+                      class="btn btn-primary"
+                      @click="selectPokemon({
                     id: pokemon.id,
                     default_name: pokemon.name,
                     type_pokemon: pokemon.types[0].type.name,
                     srcImg: pokemon.sprites.front_default
                     })"
-                >
-                  Add
-                </button>
-                <span class="m-3">
+                  >
+                    Add
+                  </button>
+                  <span class="m-3">
                   {{ pokemon.id }}
                   |
-                  <img :src="pokemon.sprites.front_default"/>
+                  <img class="img-list" :src="pokemon.sprites.front_default"/>
                   {{ pokemon.name }}
                 </span>
+                </div>
+                <div class="text-end">
+                  <button class="btn btn-info text-end" @click="toggleModalButton(pokemon.id)">
+                    Details
+                  </button>
+                </div>
               </li>
             </ul>
           </div>
@@ -117,11 +149,21 @@ const selectPokemon = (payload: any) => {
 }
 .item-list {
   border-radius: 8px;
-  width: 350px;
+  width: 400px;
   margin: auto;
 }
-img {
+.img-list {
   height: 60px;
   width: 60px;
+}
+.img-modal {
+  height: 220px;
+  width: 220px;
+
+}
+.pokemon-modal {
+  background: url("https://unite.pokemon.com/images/home/team-up/background.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 </style>
