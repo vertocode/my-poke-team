@@ -66,7 +66,7 @@ const selectPokemon = (payload: any) => {
             <h5 class="text-center">Choose the pokemons you want on your team when you're done. Click save team.</h5>
           </div>
           <div class="col-4">
-            <button class="btn btn-primary mb-4" @click="saveTeam({})">Save Team</button>
+            <button class="btn btn-primary mb-4" @click="saveTeam()">Save Team</button>
           </div>
         </div>
         <div class="row">
