@@ -3,7 +3,7 @@
     <div class="bodyMoreDetails">
       <div class="d-flex row">
         <div class="col-6 mt-3">
-          <img src="src/assets/images/pokebola.png" />
+          <img src="src/assets/images/pokebola.png" alt="pokebola.png"/>
         </div>
         <div class="text-end col-6 mt-2">
           <button type="button" class="btn-close p-4" aria-label="Close" @click="$emit('closeModal')"></button>
