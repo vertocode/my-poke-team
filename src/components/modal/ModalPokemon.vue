@@ -1,9 +1,18 @@
+<script setup lang="ts">
+import {computed} from "vue";
+
+const imgPokebola = computed(() => './src/assets/images/pokebola.png')
+</script>
+
 <template>
   <div class="overlay row">
     <div class="bodyMoreDetails">
       <div class="d-flex row">
         <div class="col-6 mt-3">
-          <img src="src/assets/images/pokebola.png" alt="pokebola.png"/>
+          <img
+              :src="imgPokebola"
+              alt="Card image cap"
+          >
         </div>
         <div class="text-end col-6 mt-2">
           <button type="button" class="btn-close p-4" aria-label="Close" @click="$emit('closeModal')"></button>
