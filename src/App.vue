@@ -4,20 +4,14 @@ import HeaderApp from "./components/header/HeaderApp.vue";
 import { onBeforeMount, reactive } from "vue";
 import { useStore } from "vuex";
 
-let load: any = reactive({
-  isLoad: false
-})
+let load: any = reactive({isLoad: false})
 
 const store = useStore()
 
 onBeforeMount(() => {
   store.commit('clearPokemons', [])
-  for (let n = 1; n < 500; n++) {
-    store.dispatch('getApi', n)
-  }
-  setTimeout(() => {
-    load.isLoad = true
-  }, 1500)
+  store.dispatch('getApi', 'pokemon?limit=501&offset=0')
+  load.isLoad = !load.isLoad
 })
 </script>
 <template>

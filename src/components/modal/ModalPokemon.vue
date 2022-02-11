@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import {computed} from "vue";
 
-const imgPokebola = computed(() => './src/assets/images/pokebola.png')
 </script>
 
 <template>
@@ -10,7 +8,7 @@ const imgPokebola = computed(() => './src/assets/images/pokebola.png')
       <div class="d-flex row">
         <div class="col-6 mt-3">
           <img
-              :src="imgPokebola"
+              :src="'./src/assets/images/pokebola.png'"
               alt="Card image cap"
           >
         </div>

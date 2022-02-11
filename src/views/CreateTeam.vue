@@ -14,13 +14,13 @@ const AllInfosPokemon: any = computed(() => {
 const createdTeam: any = reactive([])
 const allPokemonSelected: Array<number> = reactive([])
 const toggleModal: any = ref(false)
+let alertModal: any = reactive({isOpen: false, msg: ''})
 let pokeOpenDetails: any = reactive({index: 0})
 let pokeName: any = reactive([])
 
 const toggleModalButton = (pokeId: number): void => {
   toggleModal.value = !toggleModal.value
   pokeOpenDetails.index = pokeId - 1
-  console.log(pokeOpenDetails)
 }
 
 const setPokemonName: any = (id: number) => {
@@ -31,9 +31,11 @@ const setPokemonName: any = (id: number) => {
 const saveTeam = () => {
   const name: any = document.querySelector('.teamNameInput')
   if (createdTeam.length === 0) {
-    alert('To save a team it is necessary to add at least 1 pokemon.')
+    alertModal.msg = 'To save a team it is necessary to add at least 1 pokemon.'
+    alertModal.isOpen = !alertModal.isOpen
   } else if (name.value === '') {
-    alert('Give a name for your pokemon team')
+    alertModal.msg = 'Give a name for your pokemon team'
+    alertModal.isOpen = !alertModal.isOpen
   } else {
     store.commit('saveTeam', { id: 3, name: name.value, pokemons: createdTeam })
     router.push({path: '/'})
@@ -61,6 +63,11 @@ const selectPokemon = (payload: any) => {
 <template>
   <div id="createTeam">
     <!-- MODAL -->
+    <ModalPokemon @closeModal="alertModal.isOpen = !alertModal.isOpen"  v-if="alertModal.isOpen">
+      <h1 class="mt-5 alert-danger">
+        {{ alertModal.msg }}
+      </h1>
+    </ModalPokemon>
     <ModalPokemon
         v-if="toggleModal"
         @closeModal="toggleModalButton"
@@ -74,7 +81,20 @@ const selectPokemon = (payload: any) => {
       </div>
       <div>
         <h1 class="card-title">{{ AllInfosPokemon[pokeOpenDetails.index].name }}</h1>
-        <span class="info-pokemon d-block" v-for="(ability, index) in AllInfosPokemon[pokeOpenDetails.index].abilities">{{ index+1 }}° Ability: {{ ability.ability.name }}</span>
+        <div class="row">
+          <div>
+            <span class="info-pokemon d-block"> Height: {{ AllInfosPokemon[pokeOpenDetails.index].height }}</span>
+            <span class="info-pokemon d-block"> Weight: {{ AllInfosPokemon[pokeOpenDetails.index].weight }}</span>
+          </div>
+          <div class="row mt-5">
+            <div class="types-pokemon col-6">
+              <span class="info-pokemon d-block" v-for="(type, index) in AllInfosPokemon[pokeOpenDetails.index].types">{{ index+1 }}° Type: {{ type.type.name }}</span>
+            </div>
+            <div class="abilities-pokemon col-6">
+              <span class="info-pokemon d-block" v-for="(ability, index) in AllInfosPokemon[pokeOpenDetails.index].abilities">{{ index+1 }}° Ability: {{ ability.ability.name }}</span>
+            </div>
+          </div>
+        </div>
       </div>
     </ModalPokemon>
     <!-- CREATE TEAM -->
@@ -96,19 +116,11 @@ const selectPokemon = (payload: any) => {
         </div>
         <div class="row">
           <div class="col-6">
-            <ul class="list-group item-list" v-for="pokemon in AllInfosPokemon">
+            <ul class="list-group item-list" v-for="(pokemon, index) in AllInfosPokemon">
               <li class="list-group-item" :id="`item-${pokemon.id}-pokemon`">
-                <div class="">
-                  <button
-                      class="btn btn-primary"
-                      @click="selectPokemon({
-                    id: pokemon.id,
-                    default_name: pokemon.name,
-                    type_pokemon: pokemon.types[0].type.name,
-                    srcImg: pokemon.sprites.front_default
-                    })"
-                  >
-                    Add
+                <div class="item-pokemon">
+                  <button class="btn-sm btn-info text-end" @click="toggleModalButton(pokemon.id)">
+                    Details
                   </button>
                   <span class="m-3">
                   {{ pokemon.id }}
@@ -116,10 +128,16 @@ const selectPokemon = (payload: any) => {
                   <img class="img-list" :src="pokemon.sprites.front_default"/>
                   {{ pokemon.name }}
                 </span>
-                </div>
-                <div class="text-end">
-                  <button class="btn btn-info text-end" @click="toggleModalButton(pokemon.id)">
-                    Details
+                  <button
+                    class="btn m-2 btn-primary"
+                    @click="selectPokemon({
+                    id: pokemon.id,
+                    default_name: pokemon.name,
+                    type_pokemon: pokemon.types[0].type.name,
+                    srcImg: pokemon.sprites.front_default
+                    })"
+                  >
+                    Add
                   </button>
                 </div>
               </li>
@@ -151,6 +169,7 @@ const selectPokemon = (payload: any) => {
   border-radius: 8px;
   width: 400px;
   margin: auto;
+  margin-top: 2px;
 }
 .img-list {
   height: 60px;
@@ -159,11 +178,25 @@ const selectPokemon = (payload: any) => {
 .img-modal {
   height: 220px;
   width: 220px;
-
 }
 .pokemon-modal {
   background: url("https://unite.pokemon.com/images/home/team-up/background.jpg");
   background-size: cover;
   background-repeat: no-repeat;
+}
+.item-pokemon {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.info-pokemon {
+  border: 1px solid black;
+  color: #0a53be;
+  padding-top: 5px;
+  text-align: center;
+  font-size: 1.2em;
+}
+button {
+  align-self: center;
 }
 </style>

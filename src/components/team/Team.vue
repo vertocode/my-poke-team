@@ -49,7 +49,7 @@ const deletePokemons = (teamId: object, pokeId: number) => {
     <div class="row">
       <div class="col-4" v-if="store.state.teams[store.state.teamOpen].pokemons.length > 0" v-for="(pokemon, index) in store.state.teams[store.state.teamOpen].pokemons">
         <card
-            :pokemonIndex="pokemon.id"
+            :pokemonIndex="index"
             :defaultName="pokemon.default_name"
             :typePokemon="pokemon.type_pokemon"
             :pokemonName="pokemon.pokemon_name"
