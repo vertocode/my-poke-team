@@ -14,6 +14,9 @@ export default createStore({
         deleteTeam(state: any, teamId: number): void {
             state.teams.splice(teamId, 1)
         },
+        addPokemon(state, payload): void {
+            state.teams[payload.teamId].pokemons.push(payload.pokemon)
+        },
         editTeamName(state: any, payLoad: any): void {
             console.log(payLoad)
             state.teams[payLoad.teamId].name = payLoad.newName

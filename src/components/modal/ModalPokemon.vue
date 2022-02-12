@@ -5,7 +5,7 @@
 <template>
   <div class="overlay row">
     <div class="bodyMoreDetails">
-      <div class="d-flex row">
+      <div class="d-flex row header">
         <div class="col-6 mt-3">
           <img
               :src="'./src/assets/images/pokebola.png'"
@@ -16,7 +16,7 @@
           <button type="button" class="btn-close p-4" aria-label="Close" @click="$emit('closeModal')"></button>
         </div>
       </div>
-      <div class="text-center">
+      <div class="text-center slot">
         <slot></slot>
       </div>
     </div>
@@ -41,7 +41,8 @@
   border-radius: 25px;
   margin: auto 0;
   overflow: auto;
-  height: 90vh;
+  padding: 20px 80px 150px;
+  height: 70vh;
   width: 55vw;
   background-color: whitesmoke;
 }

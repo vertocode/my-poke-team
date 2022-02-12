@@ -10,6 +10,7 @@ defineProps<{
   pokemonName: string
   defaultName: string
   typePokemon: string
+  teamScreen: boolean
 }>()
 </script>
 
@@ -22,7 +23,7 @@ defineProps<{
             class="btn btn-sm btn-outline-secondary"
             @click="$emit('editPokemon', teamId)"
         >
-          Edit
+          Edit Name
         </button>
       </h5>
     </div>
@@ -31,6 +32,7 @@ defineProps<{
       <li>Type: {{ typePokemon }}</li>
     </ul>
     <div class="card-body text-center">
+      <button class="btn-sm btn-primary m-2" @click="$emit('details')" v-if="teamScreen === true">Details</button>
       <button class="btn-sm btn-danger" @click="$emit('delete')">Delete Pokemon</button>
     </div>
   </div>
