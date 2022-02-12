@@ -1,24 +1,39 @@
 <script lang="ts" setup>
+import { useStore } from "vuex";
+
+const store = useStore()
+
 defineProps<{
-  pokemon_index: number
-  pokemon_name: string
-  default_name: string
-  type_pokemon: string
+  teamId: number
+  srcImg: string
+  pokemonIndex: number
+  pokemonName: string
+  defaultName: string
+  typePokemon: string
+  teamScreen: boolean
 }>()
 </script>
 
 <template>
-  <div class="card m-3 text-center">
-    <img class="card-img-top" src="https://www.pngmart.com/files/2/Pikachu-PNG-Transparent-Image.png" alt="Card image cap">
+  <div class="card m-3 p-3 text-center">
+    <img class="card-img-top" :src="srcImg" alt="Card image cap">
     <div class="card-body">
-      <h5 class="card-title">{{ pokemon_name }}</h5>
+      <h5 class="card-title name-pokemon">{{ pokemonName }}
+        <button
+            class="btn btn-sm btn-outline-secondary"
+            @click="$emit('editPokemon', teamId)"
+        >
+          Edit Name
+        </button>
+      </h5>
     </div>
-    <ul class="list-group list-group-flush text-start">
-      <li class="list-group-item">Default name: {{ default_name }}</li>
-      <li class="list-group-item">Type: {{ type_pokemon }}</li>
+    <ul class="text-start">
+      <li>Default name: {{ defaultName }}</li>
+      <li>Type: {{ typePokemon }}</li>
     </ul>
     <div class="card-body text-center">
-      <button class="btn-sm btn-danger" @click="$emit('delete', pokemon_index)">Delete Pokemon</button>
+      <button class="btn-sm btn-primary m-2" @click="$emit('details')" v-if="teamScreen === true">Details</button>
+      <button class="btn-sm btn-danger" @click="$emit('delete')">Delete Pokemon</button>
     </div>
   </div>
 </template>
@@ -31,7 +46,11 @@ defineProps<{
 }
 .card-img-top {
   margin: auto;
-  height: 80px;
-  width: 90px;
+  height: 150px;
+  width: 150px;
+}
+ul {
+  list-style-type: none;
 }
 </style>
+
