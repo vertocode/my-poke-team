@@ -50,7 +50,7 @@ export default createStore({
                     axios(urlPokemon).then((allInfoPokemon: any) => {
                         commit('setPokemons', allInfoPokemon.data)
                     })
-                    if (n === response.data.results.length) {
+                    if (n === response.data.results.length-2) {
                         commit('loading', true)
                     }
                 }
