@@ -1,12 +1,8 @@
 <script lang="ts" setup>
-import { useStore } from "vuex";
-
-const store = useStore()
 
 defineProps<{
   teamId: number
   srcImg: string
-  pokemonIndex: number
   pokemonName: string
   defaultName: string
   typePokemon: string

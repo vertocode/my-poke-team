@@ -1,14 +1,10 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
   <div class="overlay row">
     <div class="bodyMoreDetails">
       <div class="d-flex row header">
         <div class="col-6 mt-3">
           <img
-              :src="'./src/assets/images/pokebola.png'"
+              src="https://cdn.pixabay.com/photo/2016/09/01/09/31/pokemon-1635610_960_720.png"
               alt="Card image cap"
           >
         </div>

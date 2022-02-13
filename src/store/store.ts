@@ -1,11 +1,13 @@
 import { createStore } from 'vuex'
 import axios from "axios";
+import VuexPersistence from 'vuex-persist'
 
 export default createStore({
     state: {
         teams: [],
         allPokemons: [],
-        teamOpen: 1
+        teamOpen: 1,
+        loading: false
     },
     mutations: {
         deletePokemon(state: any, payLoad: any): void {
@@ -18,13 +20,10 @@ export default createStore({
             state.teams[payload.teamId].pokemons.push(payload.pokemon)
         },
         editTeamName(state: any, payLoad: any): void {
-            console.log(payLoad)
             state.teams[payLoad.teamId].name = payLoad.newName
         },
         editNamePokemon(state: any, payLoad: any): void {
-            console.log(state.teams[payLoad.teamId].pokemons[payLoad.pokeId])
             state.teams[payLoad.teamId].pokemons[payLoad.pokeId].pokemon_name = payLoad.newName
-            console.log(state.teams[payLoad.teamId].pokemons[payLoad.pokeId])
         },
         setPokemons(state, payload): void {
             state.allPokemons.push(payload)
@@ -37,6 +36,9 @@ export default createStore({
         },
         saveTeam(state, payload): void {
             state.teams.push(payload)
+        },
+        loading(state, payload): void {
+            state.loading = payload
         }
     },
     actions: {
@@ -48,8 +50,17 @@ export default createStore({
                     axios(urlPokemon).then((allInfoPokemon: any) => {
                         commit('setPokemons', allInfoPokemon.data)
                     })
+                    if (n === response.data.results.length) {
+                        commit('loading', true)
+                    }
                 }
             })
+
         }
     },
+    plugins: [
+        new VuexPersistence({
+            storage: window.localStorage
+        }).plugin
+    ]
 })

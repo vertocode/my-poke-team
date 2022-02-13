@@ -13,8 +13,9 @@ defineProps<{
 
 let pokeOpenDetails: any = reactive({index: 0})
 let pokeAlert: any = reactive({isAlert: false})
-let questionName: any = reactive({isOpen: false, msg: 's'})
+let questionName: any = reactive({isOpen: false, msg: '', index: 0})
 let listTeamModal: any = reactive({isOpen: false})
+let pageOffSet: any = reactive({innitialValue: 0})
 let detailsModal: any = reactive({isOpen: false})
 
 const detailsButton = (pokeId: number) => {
@@ -26,21 +27,24 @@ const AllInfosPokemon: any = computed(() => {
   return store.state.allPokemons
 })
 
-const changeName = (teamId: number, pokeId: number) => {
-  const newName = prompt('What will be the new name of this pokemon?')
-  store.commit('editNamePokemon', { teamId, pokeId, newName })
-}
-
-const openEditTeamName = (msg: string) => {
+const openEditTeamName = (payload: any) => {
   questionName.isOpen = true
-  questionName.msg = msg
+  questionName.msg = payload.msg
+  questionName.index = payload.index
 }
 
-const setNewName = (teamId: number) => {
+const setNewName = (teamId: number, pokeId: number) => {
   const newName: any = document.querySelector('#newName')
-  store.commit('editTeamName', { teamId, newName: newName.value })
+  const msg: any = document.querySelector('.msgNewName')
+  const isTeam: any = msg.innerText.indexOf('team')
+  if (isTeam === -1) {
+    store.commit('editNamePokemon', { teamId, pokeId, newName: newName.value })
+  } else {
+    store.commit('editTeamName', { teamId, newName: newName.value })
+  }
   questionName.isOpen = false
 }
+
 
 const deletePokemons = (teamId: object, pokeId: number) => {
   store.commit('deletePokemon', { teamId, pokeId })
@@ -58,6 +62,17 @@ const addPokemon = (payload: any) => {
   }
     store.commit('addPokemon', payload)
 }
+const previousPage = (): void => {
+  pageOffSet.innitialValue -= 20
+  store.commit('clearPokemons', [])
+  store.dispatch('getApi', `pokemon?limit=20&offset=${pageOffSet.innitialValue}`)
+}
+const nextPage = (): void => {
+  pageOffSet.innitialValue += 20
+  store.commit('clearPokemons', [])
+  store.dispatch('getApi', `pokemon?limit=20&offset=${pageOffSet.innitialValue}`)
+  console.log(AllInfosPokemon)
+}
 </script>
 
 <template>
@@ -67,9 +82,9 @@ const addPokemon = (payload: any) => {
   </div>
   <!-- MODAL -->
   <ModalPokemon v-if="questionName.isOpen" @closeModal="questionName.isOpen = !questionName.isOpen">
-    <h3 class="mt-4">{{ questionName.msg }}</h3>
+    <h3 class="mt-4 msgNewName">{{ questionName.msg }}</h3>
     <input id="newName" class="mt-3" type="text">
-    <button class="d-block m-auto btn btn-primary mt-4" @click="setNewName(teamId)">Set new name</button>
+    <button class="d-block m-auto btn btn-primary mt-4" @click="setNewName(teamId, questionName.index)">Set new name</button>
   </ModalPokemon>
   <ModalPokemon v-if="detailsModal.isOpen" @closeModal="detailsModal.isOpen = !detailsModal.isOpen">
     <div class="pokemon-modal">
@@ -99,6 +114,10 @@ const addPokemon = (payload: any) => {
   </ModalPokemon>
   <ModalPokemon v-if="listTeamModal.isOpen" @closeModal="listTeamModal.isOpen = !listTeamModal.isOpen">
     <h1>Pokemon List</h1>
+    <ul class="pagination">
+      <li class="page-item"><a class="page-link" @click="previousPage">Previous</a></li>
+      <li class="page-item"><a class="page-link" @click="nextPage">Next</a></li>
+    </ul>
     <div>
       <ul class="list-group item-list" v-for="(pokemon) in AllInfosPokemon">
         <li class="list-group-item" :id="`item-${pokemon.id}-pokemon`">
@@ -125,6 +144,10 @@ const addPokemon = (payload: any) => {
           </div>
         </li>
       </ul>
+      <ul class="pagination">
+        <li class="page-item"><a class="page-link" @click="previousPage">Previous</a></li>
+        <li class="page-item"><a class="page-link" @click="nextPage">Next</a></li>
+      </ul>
     </div>
   </ModalPokemon>
   <div class="p-4 row">
@@ -136,7 +159,7 @@ const addPokemon = (payload: any) => {
         {{ store.state.teams[teamId].name }}
         <button
             class="btn btn-sm btn-outline-secondary"
-            @click="openEditTeamName('What will be the new name of this team?')"
+            @click="openEditTeamName({msg: 'What will be the new name of this team?', teamId})"
         >
           Edit PokeTeam Name
         </button>
@@ -158,7 +181,7 @@ const addPokemon = (payload: any) => {
             :teamScreen="true"
             @details="detailsButton(pokemon.id-1)"
             @delete="deletePokemons(teamId, index)"
-            @editPokemon="changeName(teamId, index)"
+            @editPokemon="openEditTeamName({msg:'What will be the new name of this pokemon?',teamId, index})"
         >
         </card>
       </div>

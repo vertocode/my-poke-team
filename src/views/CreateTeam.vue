@@ -7,25 +7,37 @@ import { router } from "../router";
 
 const store = useStore()
 
-const AllInfosPokemon: any = computed(() => {
+const AllInfosPokemon: any = reactive(computed(() => {
   return store.state.allPokemons
-})
+}))
 
 const createdTeam: any = reactive([])
 const allPokemonSelected: Array<number> = reactive([])
 const toggleModal: any = ref(false)
+let questionName: any = reactive({isOpen: false, newName: '', index: 0})
 let alertModal: any = reactive({isOpen: false, msg: ''})
 let pokeOpenDetails: any = reactive({index: 0})
 let pokeName: any = reactive([])
+let pageOffSet: any = reactive({innitialValue: 0})
 
 const toggleModalButton = (pokeId: number): void => {
   toggleModal.value = !toggleModal.value
   pokeOpenDetails.index = pokeId - 1
 }
 
-const setPokemonName: any = (id: number) => {
-  pokeName[id] = prompt('What will be the new name of this pokemon?')
-  createdTeam[id-1].pokemon_name = pokeName[id]
+const setPokemonName: any = (pokeId: number) => {
+  questionName.isOpen = true
+  questionName.index = pokeId
+}
+const setNewName: any = () => {
+  const newName: any = document.querySelector('#newName')
+  createdTeam.forEach((pokemon: any, index: any) => {
+    if (pokemon.id === questionName.index) {
+      pokeName[index] = newName.value
+      createdTeam[index].pokemon_name = newName.value
+    }
+  })
+  questionName.isOpen = false
 }
 
 const saveTeam = () => {
@@ -37,8 +49,8 @@ const saveTeam = () => {
     alertModal.msg = 'Give a name for your pokemon team'
     alertModal.isOpen = !alertModal.isOpen
   } else {
-    store.commit('saveTeam', { id: 3, name: name.value, pokemons: createdTeam })
-    router.push({path: '/'})
+    store.commit('saveTeam', { id: store.state.teams.length+1, name: name.value, pokemons: createdTeam })
+    window.location.replace("/");
   }
 }
 const deletePokemon = (id: any) => {
@@ -58,6 +70,18 @@ const selectPokemon = (payload: any) => {
     createdTeam.push(payload)
   }
 }
+
+const previousPage = (): void => {
+  pageOffSet.innitialValue -= 20
+  store.commit('clearPokemons', [])
+  store.dispatch('getApi', `pokemon?limit=20&offset=${pageOffSet.innitialValue}`)
+}
+const nextPage = (): void => {
+  pageOffSet.innitialValue += 20
+  store.commit('clearPokemons', [])
+  store.dispatch('getApi', `pokemon?limit=20&offset=${pageOffSet.innitialValue}`)
+  console.log(AllInfosPokemon)
+}
 </script>
 
 <template>
@@ -67,6 +91,11 @@ const selectPokemon = (payload: any) => {
       <h1 class="mt-5 alert-danger">
         {{ alertModal.msg }}
       </h1>
+    </ModalPokemon>
+    <ModalPokemon v-if="questionName.isOpen" @closeModal="questionName.isOpen = !questionName.isOpen">
+      <h3 class="mt-4 msgNewName">What will be the new name of this pokemon?</h3>
+      <input id="newName" class="mt-3" type="text">
+      <button class="d-block m-auto btn btn-primary mt-4" @click="setNewName">Set new name</button>
     </ModalPokemon>
     <ModalPokemon
         v-if="toggleModal"
@@ -116,6 +145,10 @@ const selectPokemon = (payload: any) => {
         </div>
         <div class="row">
           <div class="col-6">
+            <ul class="pagination">
+              <li class="page-item"><a class="page-link" @click="previousPage">Previous</a></li>
+              <li class="page-item"><a class="page-link" @click="nextPage">Next</a></li>
+            </ul>
             <ul class="list-group item-list" v-for="(pokemon, index) in AllInfosPokemon">
               <li class="list-group-item" :id="`item-${pokemon.id}-pokemon`">
                 <div class="item-pokemon">
@@ -142,17 +175,23 @@ const selectPokemon = (payload: any) => {
                 </div>
               </li>
             </ul>
+            <nav>
+              <ul class="pagination">
+                <li class="page-item"><a class="page-link" @click="previousPage" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" @click="nextPage" href="#">Next</a></li>
+              </ul>
+            </nav>
           </div>
           <div class="col-6">
             <div class="row">
               <card
-                  v-for="(card) in allPokemonSelected"
-                  @editPokemon="setPokemonName(card)"
-                  @delete="deletePokemon(card)"
-                  :pokemonName="pokeName[card]"
-                  :defaultName="AllInfosPokemon[card-1].name"
-                  :typePokemon="AllInfosPokemon[card-1].types[0].type.name"
-                  :srcImg="AllInfosPokemon[card-1].sprites.front_default"
+                  v-for="(card, index) in createdTeam"
+                  @editPokemon="setPokemonName(card.id)"
+                  @delete="deletePokemon(card.id)"
+                  :pokemonName="pokeName[index]"
+                  :defaultName="card.default_name"
+                  :typePokemon="card.type_pokemon"
+                  :srcImg="card.srcImg"
               />
             </div>
           </div>
@@ -198,5 +237,8 @@ const selectPokemon = (payload: any) => {
 }
 button {
   align-self: center;
+}
+.pagination {
+  justify-content: end;
 }
 </style>
