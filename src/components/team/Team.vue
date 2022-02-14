@@ -8,14 +8,14 @@ import {computed, reactive, ref} from "vue";
 const store = useStore();
 
 defineProps<{
-  teamId: any
+  teamId: number
 }>()
 
 let pokeOpenDetails: any = reactive({index: 0})
 let pokeAlert: any = reactive({isAlert: false})
 let questionName: any = reactive({isOpen: false, msg: '', index: 0})
 let listTeamModal: any = reactive({isOpen: false})
-let pageOffSet: any = reactive({innitialValue: 0})
+let pageOffSet: any = reactive({initialValue: 0})
 let detailsModal: any = reactive({isOpen: false})
 
 const detailsButton = (pokeId: number) => {
@@ -63,14 +63,14 @@ const addPokemon = (payload: any) => {
     store.commit('addPokemon', payload)
 }
 const previousPage = (): void => {
-  pageOffSet.innitialValue -= 20
+  pageOffSet.initialValue -= 20
   store.commit('clearPokemons', [])
-  store.dispatch('getApi', `pokemon?limit=20&offset=${pageOffSet.innitialValue}`)
+  store.dispatch('getApi', `pokemon?limit=20&offset=${pageOffSet.initialValue}`)
 }
 const nextPage = (): void => {
-  pageOffSet.innitialValue += 20
+  pageOffSet.initialValue += 20
   store.commit('clearPokemons', [])
-  store.dispatch('getApi', `pokemon?limit=20&offset=${pageOffSet.innitialValue}`)
+  store.dispatch('getApi', `pokemon?limit=20&offset=${pageOffSet.initialValue}`)
   console.log(AllInfosPokemon)
 }
 </script>
