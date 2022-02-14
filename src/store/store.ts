@@ -6,6 +6,7 @@ export default createStore({
     state: {
         teams: [],
         allPokemons: [],
+        pokeDetails: [],
         teamOpen: 1,
         loading: false
     },
@@ -27,6 +28,13 @@ export default createStore({
         },
         setPokemons(state, payload): void {
             state.allPokemons.push(payload)
+        },
+        setOpenTeam(state, payload): void {
+            state.teamOpen = payload
+        },
+        setPokemonDetails(state, payload): void {
+            state.pokeDetails = []
+            state.pokeDetails.push(payload)
         },
         clearPokemons(state, payload): void {
             state.allPokemons = payload
@@ -55,7 +63,13 @@ export default createStore({
                     }
                 }
             })
-
+        },
+        getPokemon({commit}, payload): void {
+            const url = `https://pokeapi.co/api/v2/pokemon/${payload}`
+            axios(url).then(response => {
+                console.log(response.data.results)
+                commit('setPokemonDetails', response.data)
+            })
         }
     },
     plugins: [

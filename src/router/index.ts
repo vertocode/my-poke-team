@@ -11,6 +11,16 @@ const routes = [
         name: 'CreateTeam',
         component: () => import('../views/CreateTeam.vue')
     },
+    {
+        path: '/team/:id',
+        name: 'Team',
+        component: () => import('../views/Team.vue')
+    },
+    {
+        path: '/details/:id',
+        name: 'Details',
+        component: () => import('../views/Details.vue')
+    }
 ]
 
 export const router = createRouter({

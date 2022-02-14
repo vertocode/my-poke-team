@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import Team from '../components/team/Team.vue'
+import Team from './Team.vue'
 import teamList from '../components/team/teamList.vue'
 import { computed, reactive } from "vue";
 import { useStore } from "vuex";
+import {router} from "../router";
+
 
 const store = useStore()
 
@@ -14,10 +16,7 @@ const isOpen = computed(() => {
   return screenStatus.isTable ? teamList : Team
 })
 function screenChange(index: number) {
-  store.commit('setTeamOpen', index)
-  screenStatus.isTable = !screenStatus.isTable
-  actualTeam.id = index
-  console.log(store.state.teams)
+  router.push(`/team/${index}`)
 }
 const screenStatus = reactive({ isTable: true})
 
@@ -26,7 +25,6 @@ const screenStatus = reactive({ isTable: true})
 <template>
   <component
       :teamId="actualTeam.id"
-      @back="screenChange"
       @openTeam="screenChange"
       :is="isOpen"
   />
