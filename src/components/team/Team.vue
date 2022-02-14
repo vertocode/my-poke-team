@@ -123,8 +123,6 @@ const nextPage = (): void => {
         <li class="list-group-item" :id="`item-${pokemon.id}-pokemon`">
           <div class="item-pokemon">
             <span class="m-3">
-                  {{ pokemon.id }}
-                  |
                   <img class="img-list" :src="pokemon.sprites.front_default"/>
                   {{ pokemon.name }}
                 </span>
@@ -171,7 +169,7 @@ const nextPage = (): void => {
   </div>
   <div class="list-group">
     <div class="row">
-      <div class="col-4" v-if="store.state.teams[store.state.teamOpen].pokemons.length > 0" v-for="(pokemon, index) in store.state.teams[store.state.teamOpen].pokemons">
+      <div class="col-3" v-if="store.state.teams[store.state.teamOpen].pokemons.length > 0" v-for="(pokemon, index) in store.state.teams[store.state.teamOpen].pokemons">
         <card
             :pokemonIndex="index"
             :defaultName="pokemon.default_name"

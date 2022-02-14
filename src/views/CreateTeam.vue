@@ -72,15 +72,16 @@ const selectPokemon = (payload: any) => {
 }
 
 const previousPage = (): void => {
-  pageOffSet.innitialValue -= 20
-  store.commit('clearPokemons', [])
-  store.dispatch('getApi', `pokemon?limit=20&offset=${pageOffSet.innitialValue}`)
+  if (pageOffSet.innitialValue > 15) {
+    pageOffSet.innitialValue -= 20
+    store.commit('clearPokemons', [])
+    store.dispatch('getApi', `pokemon?limit=20&offset=${pageOffSet.innitialValue}`)
+  }
 }
 const nextPage = (): void => {
   pageOffSet.innitialValue += 20
   store.commit('clearPokemons', [])
   store.dispatch('getApi', `pokemon?limit=20&offset=${pageOffSet.innitialValue}`)
-  console.log(AllInfosPokemon)
 }
 </script>
 
@@ -144,7 +145,7 @@ const nextPage = (): void => {
           </div>
         </div>
         <div class="row">
-          <div class="col-6">
+          <div class="col-4">
             <ul class="pagination">
               <li class="page-item"><a class="page-link" @click="previousPage">Previous</a></li>
               <li class="page-item"><a class="page-link" @click="nextPage">Next</a></li>
@@ -152,12 +153,10 @@ const nextPage = (): void => {
             <ul class="list-group item-list" v-for="(pokemon, index) in AllInfosPokemon">
               <li class="list-group-item" :id="`item-${pokemon.id}-pokemon`">
                 <div class="item-pokemon">
-                  <button class="btn-sm btn-info text-end" @click="toggleModalButton(pokemon.id)">
+                  <button class="btn-sm btn-info text-end" @click="toggleModalButton(index+1)">
                     Details
                   </button>
                   <span class="m-3">
-                  {{ pokemon.id }}
-                  |
                   <img class="img-list" :src="pokemon.sprites.front_default"/>
                   {{ pokemon.name }}
                 </span>
@@ -182,9 +181,10 @@ const nextPage = (): void => {
               </ul>
             </nav>
           </div>
-          <div class="col-6">
+          <div class="col-8">
             <div class="row">
               <card
+                  class="col-4"
                   v-for="(card, index) in createdTeam"
                   @editPokemon="setPokemonName(card.id)"
                   @delete="deletePokemon(card.id)"
@@ -239,6 +239,7 @@ button {
   align-self: center;
 }
 .pagination {
-  justify-content: end;
+  justify-content: center;
+  cursor: pointer;
 }
 </style>

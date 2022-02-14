@@ -36,9 +36,8 @@ defineProps<{
 
 <style>
 .card {
-  border-radius: 10%;
-  max-width: 500px;
-  max-height: 500px;
+  border-radius: 18%;
+  box-shadow: 12px 12px 2px 1px rgba(182, 70, 70, 0.2);
 }
 .card-img-top {
   margin: auto;
