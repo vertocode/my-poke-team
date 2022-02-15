@@ -33,12 +33,13 @@
   bottom: 0;
 }
 .bodyMoreDetails {
-  border: dashed 5px #ED4040;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  border: solid 2px #ED4040;
   border-radius: 25px;
   margin: auto 0;
-  overflow: auto;
-  padding: 20px 80px 150px;
-  height: 60vh;
+  padding: 20px 50px 50px;
+  height: 70vh;
   width: 50vw;
   background-color: whitesmoke;
 }

@@ -109,20 +109,40 @@ const nextPage = (): void => {
       </div>
       <div>
         <h1 class="card-title">{{ AllInfosPokemon[pokeOpenDetails.index].name }}</h1>
-        <div class="row">
-          <div>
-            <span class="info-pokemon d-block"> Height: {{ AllInfosPokemon[pokeOpenDetails.index].height }}</span>
-            <span class="info-pokemon d-block"> Weight: {{ AllInfosPokemon[pokeOpenDetails.index].weight }}</span>
+        <hr>
+        <div class="row col-12">
+          <div class="types-pokemon col-6">
+            <h3>Types:</h3>
+            <span class="info-pokemon d-block" v-for="(type, index) in AllInfosPokemon[pokeOpenDetails.index].types">{{ index+1 }}° Type: {{ type.type.name }}</span>
           </div>
-          <div class="row mt-5">
-            <div class="types-pokemon col-6">
-              <span class="info-pokemon d-block" v-for="(type, index) in AllInfosPokemon[pokeOpenDetails.index].types">{{ index+1 }}° Type: {{ type.type.name }}</span>
+          <div class="col-6">
+            <div col-6>
+              <h3>Features:</h3>
+              <span class="info-pokemon d-block"> Height: {{ AllInfosPokemon[pokeOpenDetails.index].height }}</span>
+              <span class="info-pokemon d-block"> Weight: {{ AllInfosPokemon[pokeOpenDetails.index].weight }}</span>
             </div>
+          </div>
+          <div class="row col-12 mt-5">
+
             <div class="abilities-pokemon col-6">
+              <h3>Abilities:</h3>
               <span class="info-pokemon d-block" v-for="(ability, index) in AllInfosPokemon[pokeOpenDetails.index].abilities">{{ index+1 }}° Ability: {{ ability.ability.name }}</span>
+              <img
+                  style="width: 50px; height: 50px"
+                  class="img-modal mt-4"
+                  :src="AllInfosPokemon[pokeOpenDetails.index].sprites.versions['generation-v']['black-white'].animated.back_default"
+                  alt="Card image cap"
+              >
+            </div>
+            <div class="col-6">
+              <div>
+                <h3>Stats:</h3>
+                <span class="info-pokemon d-block" v-for="stats in AllInfosPokemon[pokeOpenDetails.index].stats"> {{ stats.stat.name }}: {{ stats.base_stat }}</span>
+              </div>
             </div>
           </div>
         </div>
+        <hr>
       </div>
     </ModalPokemon>
     <!-- CREATE TEAM -->
@@ -180,9 +200,10 @@ const nextPage = (): void => {
             </nav>
           </div>
           <div class="col-8">
+            <h2 class="text-center text-decoration-underline">Your new team:</h2>
             <div class="row">
               <card
-                  class="col-4"
+                  class="col-3"
                   v-for="(card, index) in createdTeam"
                   @editPokemon="setPokemonName(card.id)"
                   @delete="deletePokemon(card.id)"
@@ -204,7 +225,7 @@ const nextPage = (): void => {
 }
 .item-list {
   border-radius: 8px;
-  width: 400px;
+  width: 380px;
   margin: auto;
   margin-top: 2px;
 }
@@ -217,9 +238,11 @@ const nextPage = (): void => {
   width: 220px;
 }
 .pokemon-modal {
-  background: url("https://unite.pokemon.com/images/home/team-up/background.jpg");
+  background: url("https://st2.depositphotos.com/1906711/11944/v/450/depositphotos_119441904-stock-illustration-pokeball-hanging-in-the-air.jpg");
+  border-radius: 30px;
   background-size: cover;
   background-repeat: no-repeat;
+  background-position-y: center;
 }
 .item-pokemon {
   width: 100%;
@@ -227,8 +250,9 @@ const nextPage = (): void => {
   justify-content: space-between;
 }
 .info-pokemon {
-  border: 1px solid black;
-  color: #0a53be;
+  width: max-content;
+  margin: auto;
+  color: #00265e;
   padding-top: 5px;
   text-align: center;
   font-size: 1.2em;

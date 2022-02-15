@@ -29,6 +29,7 @@ onBeforeMount(() => {
 #app {
   overflow-x: hidden;
   height: 100%;
+  font-family: times new roman,sans-serif;
 }
 .loading {
   margin-top: 45vh;
