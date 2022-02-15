@@ -3,7 +3,7 @@ import card from '../components/list/card.vue'
 import ModalPokemon from '../components/modal/ModalPokemon.vue'
 import leftArrow from '../assets/images/arrow-left.svg'
 import { useStore } from "vuex";
-import { computed, onMounted, reactive } from "vue";
+import { computed, reactive, ref } from "vue";
 import { router } from "../router";
 
 const store = useStore();
@@ -12,7 +12,7 @@ let team: any = reactive({id: store.state.teamOpen})
 let pokeAlert: any = reactive({isAlert: false})
 let questionName: any = reactive({isOpen: false, msg: '', index: 0})
 let listTeamModal: any = reactive({isOpen: false})
-let pageOffSet: any = reactive({initialValue: 0})
+let pageOffSet: any = 0
 
 const detailsButton = reactive((pokeId: number) => {
   router.push(`/details/${pokeId}`)
@@ -44,7 +44,6 @@ const setNewName = (teamId: number, pokeId: number) => {
   questionName.isOpen = false
 }
 
-
 const deletePokemons = (teamId: object, pokeId: number) => {
   store.commit('deletePokemon', { teamId, pokeId })
 }
@@ -62,14 +61,12 @@ const addPokemon = (payload: any) => {
     store.commit('addPokemon', payload)
 }
 const previousPage = (): void => {
-  pageOffSet.initialValue -= 20
-  store.commit('clearPokemons', [])
-  store.dispatch('getApi', `pokemon?limit=20&offset=${pageOffSet.initialValue}`)
+  pageOffSet -= 20
+  store.dispatch('getApi', parseInt(pageOffSet))
 }
 const nextPage = (): void => {
-  pageOffSet.initialValue += 20
-  store.commit('clearPokemons', [])
-  store.dispatch('getApi', `pokemon?limit=20&offset=${pageOffSet.initialValue}`)
+  pageOffSet += 20
+  store.dispatch('getApi', parseInt(pageOffSet))
 }
 </script>
 

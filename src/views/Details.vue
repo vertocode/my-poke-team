@@ -4,6 +4,8 @@ import { useStore } from "vuex";
 import { computed, onMounted, reactive } from "vue";
 import { router } from "../router";
 import { useRoute } from "vue-router";
+import ServicesPokemon from "../services/api";
+
 
 const store = useStore()
 const routes = useRoute()
@@ -20,8 +22,8 @@ const backButton = () => {
   router.back()
 }
 
-onMounted(() => {
-  const id = routes.params.id
+onMounted(async () => {
+  const id = routes.params.id as string
   store.dispatch('getPokemon', id)
 })
 </script>

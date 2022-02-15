@@ -1,12 +1,13 @@
 import { createStore } from 'vuex'
-import axios from "axios";
 import VuexPersistence from 'vuex-persist'
+import ServicesPokemon from "../services/api";
+import { Pokemon } from "../Interface";
 
 export default createStore({
     state: {
         teams: [],
         allPokemons: [],
-        pokeDetails: [],
+        pokeDetails: [] as Pokemon[],
         teamOpen: 1,
         loading: false
     },
@@ -51,23 +52,18 @@ export default createStore({
     },
     actions: {
         getApi({commit}, payload): void {
-            const url = `https://pokeapi.co/api/v2/${payload}`
-            axios(url).then(response => {
-                for (let n: number = 0; n < response.data.results.length; n++) {
-                    const urlPokemon = response.data.results[n].url
-                    axios(urlPokemon).then((allInfoPokemon: any) => {
-                        commit('setPokemons', allInfoPokemon.data)
+            console.log(payload)
+            commit('clearPokemons', [])
+            ServicesPokemon.getListPokemon(payload).then(response => {
+                response.data.results.forEach((pokemon: any) => {
+                    ServicesPokemon.getPokemon(pokemon.name).then(response => {
+                        commit('setPokemons', response.data)
                     })
-                    if (n === response.data.results.length-2) {
-                        commit('loading', true)
-                    }
-                }
+                })
             })
         },
         getPokemon({commit}, payload): void {
-            const url = `https://pokeapi.co/api/v2/pokemon/${payload}`
-            axios(url).then(response => {
-                console.log(response.data.results)
+            ServicesPokemon.getPokemon(payload).then(response => {
                 commit('setPokemonDetails', response.data)
             })
         }

@@ -74,14 +74,12 @@ const selectPokemon = (payload: any) => {
 const previousPage = (): void => {
   if (pageOffSet.innitialValue > 15) {
     pageOffSet.innitialValue -= 20
-    store.commit('clearPokemons', [])
-    store.dispatch('getApi', `pokemon?limit=20&offset=${pageOffSet.innitialValue}`)
+    store.dispatch('getApi', pageOffSet.innitialValue)
   }
 }
 const nextPage = (): void => {
   pageOffSet.innitialValue += 20
-  store.commit('clearPokemons', [])
-  store.dispatch('getApi', `pokemon?limit=20&offset=${pageOffSet.innitialValue}`)
+  store.dispatch('getApi', pageOffSet.innitialValue)
 }
 </script>
 
@@ -153,7 +151,7 @@ const nextPage = (): void => {
             <ul class="list-group item-list" v-for="(pokemon, index) in AllInfosPokemon">
               <li class="list-group-item" :id="`item-${pokemon.id}-pokemon`">
                 <div class="item-pokemon">
-                  <button class="btn-sm btn-info text-end" @click="toggleModalButton(index+1)">
+                  <button class="btn btn-sm btn-outline-secondary" @click="toggleModalButton(index+1)">
                     Details
                   </button>
                   <span class="m-3">
@@ -166,7 +164,7 @@ const nextPage = (): void => {
                     id: pokemon.id,
                     default_name: pokemon.name,
                     type_pokemon: pokemon.types[0].type.name,
-                    srcImg: pokemon.sprites.versions['generation-v']['black-white'].animated.front_default
+                    srcImg: pokemon.sprites.other['official-artwork'].front_default
                     })"
                   >
                     Add

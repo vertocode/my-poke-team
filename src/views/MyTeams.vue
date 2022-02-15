@@ -2,11 +2,7 @@
 import Team from './Team.vue'
 import teamList from '../components/team/teamList.vue'
 import { computed, reactive } from "vue";
-import { useStore } from "vuex";
 import {router} from "../router";
-
-
-const store = useStore()
 
 const actualTeam = reactive({
   id: 1

@@ -8,7 +8,7 @@ const store = useStore()
 
 onBeforeMount(() => {
   store.commit('clearPokemons', [])
-  store.dispatch('getApi', 'pokemon?limit=20&offset=0')
+  store.dispatch('getApi', '0')
 })
 </script>
 <template>
@@ -32,5 +32,8 @@ onBeforeMount(() => {
 }
 .loading {
   margin-top: 45vh;
+}
+.pagination {
+  cursor: pointer;
 }
 </style>

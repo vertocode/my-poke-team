@@ -48,7 +48,8 @@ const openTeam = (teamId: number) => {
 </template>
 
 <style scoped>
-.table-main {
+tr:hover{
+  background-color: rgba(192, 56, 56, 0.22);
 }
 </style>
 

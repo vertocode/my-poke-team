@@ -38,8 +38,8 @@
   margin: auto 0;
   overflow: auto;
   padding: 20px 80px 150px;
-  height: 70vh;
-  width: 55vw;
+  height: 60vh;
+  width: 50vw;
   background-color: whitesmoke;
 }
 img {
