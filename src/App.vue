@@ -7,8 +7,12 @@ import { useStore } from "vuex";
 const store = useStore()
 
 onBeforeMount(() => {
+  store.commit('loading', false)
   store.commit('clearPokemons', [])
   store.dispatch('getApi', '0')
+  setTimeout(() => {
+    store.commit('loading', true)
+  }, 500)
 })
 </script>
 <template>
