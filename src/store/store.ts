@@ -52,7 +52,6 @@ export default createStore({
     },
     actions: {
         getApi({commit}, payload): void {
-            console.log(payload)
             commit('clearPokemons', [])
             ServicesPokemon.getListPokemon(payload).then(response => {
                 response.data.results.forEach((pokemon: any) => {

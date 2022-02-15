@@ -155,7 +155,7 @@ const nextPage = (): void => {
                     Details
                   </button>
                   <span class="m-3">
-                  <img class="img-list" :src="pokemon.sprites.other['official-artwork'].front_default"/>
+                  <img class="img-list" :src="pokemon.sprites.versions['generation-v']['black-white'].animated.front_default"/>
                   {{ pokemon.name }}
                 </span>
                   <button

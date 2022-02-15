@@ -58,6 +58,7 @@ const addPokemon = (payload: any) => {
       return
     }
   }
+    listTeamModal.isOpen = false
     store.commit('addPokemon', payload)
 }
 const previousPage = (): void => {
@@ -92,7 +93,7 @@ const nextPage = (): void => {
         <li class="list-group-item m-auto col-8" :id="`item-${pokemon.id}-pokemon`">
           <div class="item-pokemon">
             <span class="m-3">
-                  <img class="img-list" :src="pokemon.sprites.other['official-artwork'].front_default"/>
+                  <img class="img-list" :src="pokemon.sprites.versions['generation-v']['black-white'].animated.front_default"/>
                   {{ pokemon.name }}
                 </span>
             <button

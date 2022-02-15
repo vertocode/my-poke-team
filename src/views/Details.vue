@@ -4,8 +4,6 @@ import { useStore } from "vuex";
 import { computed, onMounted, reactive } from "vue";
 import { router } from "../router";
 import { useRoute } from "vue-router";
-import ServicesPokemon from "../services/api";
-
 
 const store = useStore()
 const routes = useRoute()
