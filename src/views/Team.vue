@@ -70,7 +70,6 @@ const nextPage = (): void => {
   pageOffSet.initialValue += 20
   store.commit('clearPokemons', [])
   store.dispatch('getApi', `pokemon?limit=20&offset=${pageOffSet.initialValue}`)
-  console.log(AllInfosPokemon)
 }
 </script>
 
@@ -87,16 +86,16 @@ const nextPage = (): void => {
   </ModalPokemon>
   <ModalPokemon v-if="listTeamModal.isOpen" @closeModal="listTeamModal.isOpen = !listTeamModal.isOpen">
     <h1>Pokemon List</h1>
-    <ul class="pagination">
-      <li class="page-item"><a class="page-link" @click="previousPage">Previous</a></li>
-      <li class="page-item"><a class="page-link" @click="nextPage">Next</a></li>
+    <ul class="pagination m-auto">
+      <li class="page-item m-auto"><a class="page-link" @click="previousPage">Previous</a></li>
+      <li class="page-item m-auto"><a class="page-link" @click="nextPage">Next</a></li>
     </ul>
     <div>
-      <ul class="list-group item-list" v-for="(pokemon) in AllInfosPokemon">
-        <li class="list-group-item" :id="`item-${pokemon.id}-pokemon`">
+      <ul class="list-group item-list row" v-for="(pokemon) in AllInfosPokemon">
+        <li class="list-group-item m-auto col-8" :id="`item-${pokemon.id}-pokemon`">
           <div class="item-pokemon">
             <span class="m-3">
-                  <img class="img-list" :src="pokemon.sprites.front_default"/>
+                  <img class="img-list" :src="pokemon.sprites.other['official-artwork'].front_default"/>
                   {{ pokemon.name }}
                 </span>
             <button
@@ -107,7 +106,7 @@ const nextPage = (): void => {
                     id: pokemon.id,
                     default_name: pokemon.name,
                     type_pokemon: pokemon.types[0].type.name,
-                    srcImg: pokemon.sprites.front_default
+                    srcImg: pokemon.sprites.other['official-artwork'].front_default
                     }})"
             >
               Add
@@ -115,9 +114,9 @@ const nextPage = (): void => {
           </div>
         </li>
       </ul>
-      <ul class="pagination">
-        <li class="page-item"><a class="page-link" @click="previousPage">Previous</a></li>
-        <li class="page-item"><a class="page-link" @click="nextPage">Next</a></li>
+      <ul class="pagination m-auto">
+        <li class="page-item m-auto"><a class="page-link" @click="previousPage">Previous</a></li>
+        <li class="page-item m-auto"><a class="page-link" @click="nextPage">Next</a></li>
       </ul>
     </div>
   </ModalPokemon>
@@ -180,5 +179,9 @@ const nextPage = (): void => {
   top: 0;
   right: 0;
   left: 0;
+}
+
+.img-list {
+  width: 70px;
 }
 </style>

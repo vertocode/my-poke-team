@@ -28,7 +28,7 @@ defineProps<{
       <li>Type: {{ typePokemon }}</li>
     </ul>
     <div class="card-body text-center">
-      <button class="btn-sm btn-primary m-2" @click="$emit('details')" v-if="teamScreen === true">Details</button>
+      <button class="btn btn-sm btn-outline-info m-2" @click="$emit('details')" v-if="teamScreen === true">Details</button>
       <button class="btn-sm btn-danger" @click="$emit('delete')">Delete Pokemon</button>
     </div>
   </div>

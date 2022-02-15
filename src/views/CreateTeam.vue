@@ -105,7 +105,7 @@ const nextPage = (): void => {
       <div class="pokemon-modal">
         <img
             class="img-modal"
-            :src="AllInfosPokemon[pokeOpenDetails.index].sprites.front_default"
+            :src="AllInfosPokemon[pokeOpenDetails.index].sprites.other['official-artwork'].front_default"
             alt="Card image cap"
         >
       </div>
@@ -157,7 +157,7 @@ const nextPage = (): void => {
                     Details
                   </button>
                   <span class="m-3">
-                  <img class="img-list" :src="pokemon.sprites.front_default"/>
+                  <img class="img-list" :src="pokemon.sprites.other['official-artwork'].front_default"/>
                   {{ pokemon.name }}
                 </span>
                   <button
@@ -166,7 +166,7 @@ const nextPage = (): void => {
                     id: pokemon.id,
                     default_name: pokemon.name,
                     type_pokemon: pokemon.types[0].type.name,
-                    srcImg: pokemon.sprites.front_default
+                    srcImg: pokemon.sprites.versions['generation-v']['black-white'].animated.front_default
                     })"
                   >
                     Add

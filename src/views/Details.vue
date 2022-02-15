@@ -2,9 +2,11 @@
 import leftArrow from '../assets/images/arrow-left.svg'
 import { useStore } from "vuex";
 import { computed, onMounted, reactive } from "vue";
-import {router} from "../router";
+import { router } from "../router";
+import { useRoute } from "vue-router";
 
 const store = useStore()
+const routes = useRoute()
 
 const infoPokemon: any = reactive(computed(() => {
   return store.state.pokeDetails
@@ -19,7 +21,7 @@ const backButton = () => {
 }
 
 onMounted(() => {
-  const id = window.location.pathname.replace('/details/', '')
+  const id = routes.params.id
   store.dispatch('getPokemon', id)
 })
 </script>
@@ -31,7 +33,7 @@ onMounted(() => {
   <div class="card">
     <div class="image-pokemon">
       <img
-          :src="pokemon.info[0].sprites.other.dream_world.front_default"
+          :src="pokemon.info[0].sprites.other['official-artwork'].front_default"
           alt="image"
       >
     </div>
