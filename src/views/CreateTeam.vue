@@ -83,7 +83,6 @@ const nextPage = (): void => {
 onUnmounted(() => {
   if (!routes.path.includes('details')) {
     store.commit('unMountedCreated')
-    console.log('foi')
   }
 })
 </script>

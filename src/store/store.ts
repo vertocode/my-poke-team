@@ -63,7 +63,7 @@ export default createStore({
                     ServicesPokemon.getPokemon(pokemon.name).then((response: any) => {
                         const { name, id, types } = response.data
                         const { type } = response.data.types[0].type.name
-                        const { front_default } = response.data.sprites.versions['generation-v']['black-white'].animated
+                        const { front_default } = response.data.sprites.other['official-artwork']
                         commit('setPokemons', { name, id, types, front_default })
                     })
                 })
