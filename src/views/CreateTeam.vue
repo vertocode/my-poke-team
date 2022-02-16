@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import Card from "../components/list/card.vue";
 import ModalPokemon from '../components/modal/ModalPokemon.vue'
-import { computed, reactive, ref } from "vue";
+import { computed, reactive, onUnmounted } from "vue";
 import { useStore } from "vuex";
 import { router } from "../router";
+import { useRoute } from "vue-router";
 
 const store = useStore()
+const routes = useRoute()
 
 const pokemonList: any = reactive(computed(() => {
   return store.state.allPokemons
@@ -56,7 +58,6 @@ const deletePokemon = (id: any) => {
       store.commit('deletePokemonCreated', index)
     }
   })
-
 }
 
 const selectPokemon = (payload: any) => {
@@ -78,6 +79,13 @@ const nextPage = (): void => {
   pageOffSet.innitialValue += 10
   store.dispatch('getApi', pageOffSet.innitialValue)
 }
+
+onUnmounted(() => {
+  if (!routes.path.includes('details')) {
+    store.commit('unMountedCreated')
+    console.log('foi')
+  }
+})
 </script>
 
 <template>

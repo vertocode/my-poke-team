@@ -24,6 +24,9 @@ export default createStore({
         deletePokemonCreated(state: any, payload: any): void {
             state.createdTeam.splice(payload, 1)
         },
+        unMountedCreated(state: any): void {
+            state.createdTeam = []
+        },
         addPokemon(state: any, payload: any): void {
             state.teams[payload.teamId].pokemons.push(payload.pokemon)
         },
