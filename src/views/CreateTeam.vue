@@ -53,9 +53,10 @@ const deletePokemon = (id: any) => {
   allPokemonSelected.findIndex((element, index) => {
     if (element === id) {
       allPokemonSelected.splice(index, 1)
-      store.state.createdTeam.splice(index, 1)
+      store.commit('deletePokemonCreated', index)
     }
   })
+
 }
 
 const selectPokemon = (payload: any) => {

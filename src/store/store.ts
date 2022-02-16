@@ -9,7 +9,7 @@ export default createStore({
     state: {
         teams: [],
         allPokemons: [],
-        pokeDetails: [],
+        pokeDetails: [] as Pokemon[],
         createdTeam: [],
         teamOpen: 1,
         loading: false
@@ -20,6 +20,9 @@ export default createStore({
         },
         deleteTeam(state: any, teamId: number): void {
             state.teams.splice(teamId, 1)
+        },
+        deletePokemonCreated(state: any, payload: any): void {
+            state.createdTeam.splice(payload, 1)
         },
         addPokemon(state: any, payload: any): void {
             state.teams[payload.teamId].pokemons.push(payload.pokemon)
