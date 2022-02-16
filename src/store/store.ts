@@ -24,6 +24,10 @@ export default createStore({
         deletePokemonCreated(state: any, payload: any): void {
             state.createdTeam.splice(payload, 1)
         },
+        newNameCreated(state: any, payload: any): void {
+            console.log(payload)
+            state.createdTeam[payload.index].pokemon_name = payload.newName
+        },
         unMountedCreated(state: any): void {
             state.createdTeam = []
         },

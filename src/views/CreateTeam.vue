@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Card from "../components/list/card.vue";
 import ModalPokemon from '../components/modal/ModalPokemon.vue'
-import { computed, reactive, onUnmounted } from "vue";
+import { computed, reactive, ref, watch, onUnmounted } from "vue";
 import { useStore } from "vuex";
 import { router } from "../router";
 import { useRoute } from "vue-router";
@@ -13,10 +13,14 @@ const pokemonList: any = reactive(computed(() => {
   return store.state.allPokemons
 }))
 
-const allPokemonSelected: Array<number> = reactive([])
+const teamName: any = ref(store.state.createdTeam.teamName)
+
+watch(teamName, (newValue) => {
+  store.state.createdTeam.teamName = newValue
+})
+
 let questionName: any = reactive({isOpen: false, newName: '', index: 0})
 let alertModal: any = reactive({isOpen: false, msg: ''})
-let pokeName: any = reactive([])
 let pageOffSet: any = reactive({innitialValue: 0})
 
 const detailsButton = (pokeId: number): void => {
@@ -31,15 +35,14 @@ const setNewName: any = () => {
   const newName: any = document.querySelector('#newName')
   store.state.createdTeam.forEach((pokemon: any, index: any) => {
     if (pokemon.id === questionName.index) {
-      pokeName[index] = newName.value
-      store.state.createdTeam[index].pokemon_name = newName.value
+      store.commit('newNameCreated', { index, newName: newName.value })
     }
   })
   questionName.isOpen = false
 }
 
 const saveTeam = () => {
-  const name: any = document.querySelector('.teamNameInput')
+  const name: any = store.state.createdTeam.teamName
   if (store.state.createdTeam.length === 0) {
     alertModal.msg = 'To save a team it is necessary to add at least 1 pokemon.'
     alertModal.isOpen = !alertModal.isOpen
@@ -47,26 +50,21 @@ const saveTeam = () => {
     alertModal.msg = 'Give a name for your pokemon team'
     alertModal.isOpen = !alertModal.isOpen
   } else {
-    store.commit('saveTeam', { id: store.state.teams.length+1, name: name.value, pokemons: store.state.createdTeam })
+    store.commit('saveTeam', { id: store.state.teams.length+1, name, pokemons: store.state.createdTeam })
     window.location.replace("/");
+    store.commit('unMountedCreated')
   }
 }
 const deletePokemon = (id: any) => {
-  allPokemonSelected.findIndex((element, index) => {
-    if (element === id) {
-      allPokemonSelected.splice(index, 1)
+  store.state.createdTeam.findIndex((element, index) => {
+    if (element.id === id) {
       store.commit('deletePokemonCreated', index)
     }
   })
 }
 
 const selectPokemon = (payload: any) => {
-  if (allPokemonSelected.includes(payload.id)) {
-    return
-  } else {
-    allPokemonSelected.push(payload.id)
-    store.state.createdTeam.push(payload)
-  }
+  store.state.createdTeam.push(payload)
 }
 
 const previousPage = (): void => {
@@ -104,7 +102,7 @@ onUnmounted(() => {
       <div class="row mx-md-n5">
         <div class="col-12 text-center">
           <h4 class="mt-4">What will be the name of your pokemon team?</h4>
-          <input type="text" class="mt-2 teamNameInput" placeholder="Name Team">
+          <input v-model="teamName" type="text" class="mt-2" placeholder="Name Team">
         </div>
       </div>
     <hr>
@@ -162,7 +160,7 @@ onUnmounted(() => {
                   v-for="(card, index) in store.state.createdTeam"
                   @editPokemon="setPokemonName(card.id)"
                   @delete="deletePokemon(card.id)"
-                  :pokemonName="pokeName[index]"
+                  :pokemonName="store.state.createdTeam[index].pokemon_name"
                   :defaultName="card.default_name"
                   :typePokemon="card.type_pokemon"
                   :srcImg="card.srcImg"
