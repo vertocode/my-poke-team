@@ -3,23 +3,18 @@ import card from '../components/list/card.vue'
 import ModalPokemon from '../components/modal/ModalPokemon.vue'
 import leftArrow from '../assets/images/arrow-left.svg'
 import { useStore } from "vuex";
-import { computed, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 import { router } from "../router";
 
 const store = useStore();
 
-let team: any = reactive({id: store.state.teamOpen})
 let pokeAlert: any = reactive({isAlert: false})
 let questionName: any = reactive({isOpen: false, msg: '', index: 0})
 let listTeamModal: any = reactive({isOpen: false})
-let pageOffSet: any = 0
+let pageOffSet: any = ref(0)
 
 const detailsButton = reactive((pokeId: number) => {
   router.push(`/details/${pokeId}`)
-})
-
-const AllInfosPokemon: any = computed(() => {
-  return store.state.allPokemons
 })
 
 const backButton = () => {
@@ -62,12 +57,14 @@ const addPokemon = (payload: any) => {
     store.commit('addPokemon', payload)
 }
 const previousPage = (): void => {
-  pageOffSet -= 20
-  store.dispatch('getApi', parseInt(pageOffSet))
+  if (pageOffSet.value > 9) {
+    pageOffSet.value -= 10
+    store.dispatch('getApi', pageOffSet.value)
+  }
 }
 const nextPage = (): void => {
-  pageOffSet += 20
-  store.dispatch('getApi', parseInt(pageOffSet))
+  pageOffSet.value += 10
+  store.dispatch('getApi', pageOffSet.value)
 }
 </script>
 
@@ -80,7 +77,7 @@ const nextPage = (): void => {
   <ModalPokemon v-if="questionName.isOpen" @closeModal="questionName.isOpen = !questionName.isOpen">
     <h3 class="mt-4 msgNewName">{{ questionName.msg }}</h3>
     <input id="newName" class="mt-3" type="text">
-    <button class="d-block m-auto btn btn-primary mt-4" @click="setNewName(team.id, questionName.index)">Set new name</button>
+    <button class="d-block m-auto btn btn-primary mt-4" @click="setNewName(store.state.teamOpen, questionName.index)">Set new name</button>
   </ModalPokemon>
   <ModalPokemon v-if="listTeamModal.isOpen" @closeModal="listTeamModal.isOpen = !listTeamModal.isOpen">
     <h1>Pokemon List</h1>
@@ -89,22 +86,22 @@ const nextPage = (): void => {
       <li class="page-item m-auto"><a class="page-link" @click="nextPage">Next</a></li>
     </ul>
     <div>
-      <ul class="list-group item-list row" v-for="(pokemon) in AllInfosPokemon">
+      <ul class="list-group item-list row" v-for="pokemon in store.state.allPokemons">
         <li class="list-group-item m-auto col-8" :id="`item-${pokemon.id}-pokemon`">
           <div class="item-pokemon">
             <span class="m-3">
-                  <img class="img-list" :src="pokemon.sprites.versions['generation-v']['black-white'].animated.front_default"/>
+                  <img class="img-list" :src="pokemon.front_default"/>
                   {{ pokemon.name }}
                 </span>
             <button
                 class="btn m-2 btn-primary"
                 @click="addPokemon({
-                    teamId: team.id,
+                    teamId: store.state.teamOpen,
                     pokemon: {
                     id: pokemon.id,
                     default_name: pokemon.name,
                     type_pokemon: pokemon.types[0].type.name,
-                    srcImg: pokemon.sprites.other['official-artwork'].front_default
+                    srcImg: pokemon.front_default
                     }})"
             >
               Add
@@ -124,10 +121,10 @@ const nextPage = (): void => {
     </div>
     <div class="col-6">
       <h2 class="text-center title">
-        {{ store.state.teams[team.id].name }}
+        {{ store.state.teams[store.state.teamOpen].name }}
         <button
             class="btn btn-sm btn-outline-secondary"
-            @click="openEditTeamName({msg: 'What will be the new name of this team?', teamId: team.id})"
+            @click="openEditTeamName({msg: 'What will be the new name of this team?', teamId: store.state.teamOpen})"
         >
           Edit PokeTeam Name
         </button>
@@ -148,8 +145,8 @@ const nextPage = (): void => {
             :srcImg="pokemon.srcImg"
             :teamScreen="true"
             @details="detailsButton(pokemon.id)"
-            @delete="deletePokemons(team.id, index)"
-            @editPokemon="openEditTeamName({msg:'What will be the new name of this pokemon?',teamId: team.id, index})"
+            @delete="deletePokemons(store.state.teamOpen, index)"
+            @editPokemon="openEditTeamName({msg:'What will be the new name of this pokemon?',teamId: store.state.teamOpen, index})"
         >
         </card>
       </div>

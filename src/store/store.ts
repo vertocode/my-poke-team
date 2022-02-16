@@ -1,4 +1,6 @@
+// @ts-ignore
 import { createStore } from 'vuex'
+// @ts-ignore
 import VuexPersistence from 'vuex-persist'
 import ServicesPokemon from "../services/api";
 import { Pokemon } from "../Interface";
@@ -7,7 +9,8 @@ export default createStore({
     state: {
         teams: [],
         allPokemons: [],
-        pokeDetails: [] as Pokemon[],
+        pokeDetails: [],
+        createdTeam: [],
         teamOpen: 1,
         loading: false
     },
@@ -18,7 +21,7 @@ export default createStore({
         deleteTeam(state: any, teamId: number): void {
             state.teams.splice(teamId, 1)
         },
-        addPokemon(state, payload): void {
+        addPokemon(state: any, payload: any): void {
             state.teams[payload.teamId].pokemons.push(payload.pokemon)
         },
         editTeamName(state: any, payLoad: any): void {
@@ -27,43 +30,45 @@ export default createStore({
         editNamePokemon(state: any, payLoad: any): void {
             state.teams[payLoad.teamId].pokemons[payLoad.pokeId].pokemon_name = payLoad.newName
         },
-        setPokemons(state, payload): void {
+        setPokemons(state: any, payload: any): void {
             state.allPokemons.push(payload)
         },
-        setOpenTeam(state, payload): void {
-            state.teamOpen = payload
+        setPokemonDetails(state: any, payload: any): void {
+            state.pokeDetails = payload
         },
-        setPokemonDetails(state, payload): void {
-            state.pokeDetails = []
-            state.pokeDetails.push(payload)
-        },
-        clearPokemons(state, payload): void {
+        clearPokemons(state: any, payload: any): void {
             state.allPokemons = payload
         },
-        setTeamOpen(state, payload): void {
+        setTeamOpen(state: any, payload: any): void {
             state.teamOpen = payload
         },
-        saveTeam(state, payload): void {
+        saveTeam(state: any, payload: any): void {
             state.teams.push(payload)
         },
-        loading(state, payload): void {
+        loading(state: any, payload: any): void {
             state.loading = payload
         }
     },
     actions: {
-        getApi({commit}, payload): void {
+        getApi({commit}: any, payload: any): void {
             commit('clearPokemons', [])
-            ServicesPokemon.getListPokemon(payload).then(response => {
+            ServicesPokemon.getListPokemon(payload).then((response: any) => {
                 response.data.results.forEach((pokemon: any) => {
-                    ServicesPokemon.getPokemon(pokemon.name).then(response => {
-                        commit('setPokemons', response.data)
+                    ServicesPokemon.getPokemon(pokemon.name).then((response: any) => {
+                        const { name, id, types } = response.data
+                        const { type } = response.data.types[0].type.name
+                        const { front_default } = response.data.sprites.versions['generation-v']['black-white'].animated
+                        commit('setPokemons', { name, id, types, front_default })
                     })
                 })
             })
         },
-        getPokemon({commit}, payload): void {
-            ServicesPokemon.getPokemon(payload).then(response => {
-                commit('setPokemonDetails', response.data)
+        getPokemon ({commit}: any, payload: any): void {
+            ServicesPokemon.getPokemon(payload).then((response: any) => {
+                const { id, name, height, weight, types, stats, abilities } = response.data
+                const { front_default } = response.data.sprites.other['official-artwork']
+                const { back_default } = response.data.sprites.versions['generation-v']['black-white'].animated
+                commit('setPokemonDetails', { id, name, height, weight, types, stats, abilities, front_default, back_default })
             })
         }
     },

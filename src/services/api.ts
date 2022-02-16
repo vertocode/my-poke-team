@@ -5,10 +5,10 @@ const api = axios.create({
 })
 
 export default class ServicesPokemon {
-    static getPokemon(id: number | string) {
-        return api.get(`pokemon/${id}`)
+    static async getPokemon(id: number | string) {
+        return await api.get(`pokemon/${id}`)
     }
-    static getListPokemon(payload: string) {
-        return api.get(`pokemon?limit=20&offset=${payload}`)
+    static async getListPokemon(payload: string) {
+         return await api.get(`pokemon?limit=10&offset=${payload}`)
     }
 }
