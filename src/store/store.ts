@@ -25,7 +25,6 @@ export default createStore({
             state.createdTeam.splice(payload, 1)
         },
         newNameCreated(state: any, payload: any): void {
-            console.log(payload)
             state.createdTeam[payload.index].pokemon_name = payload.newName
         },
         unMountedCreated(state: any): void {
@@ -66,7 +65,6 @@ export default createStore({
                 response.data.results.forEach((pokemon: any) => {
                     ServicesPokemon.getPokemon(pokemon.name).then((response: any) => {
                         const { name, id, types } = response.data
-                        const { type } = response.data.types[0].type.name
                         const { front_default } = response.data.sprites.other['official-artwork']
                         commit('setPokemons', { name, id, types, front_default })
                     })

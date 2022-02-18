@@ -9,7 +9,7 @@ const store = useStore()
 onBeforeMount(() => {
   store.commit('loading', false)
   store.commit('clearPokemons', [])
-  store.dispatch('getApi', '0')
+  store.dispatch('getApi', { limit: 10, offset: 0 })
   setTimeout(() => {
     store.commit('loading', true)
   }, 500)

@@ -1,12 +1,30 @@
 <script lang="ts" setup>
 
 defineProps<{
-  teamId: number
-  srcImg: string
-  pokemonName: string
-  defaultName: string
-  typePokemon: string
-  teamScreen: boolean
+  teamId: {
+    type: number
+    required: false
+  },
+  srcImg: {
+    type: string
+    required: true
+  }
+  pokemonName: {
+    type: string
+    required: false
+  }
+  defaultName: {
+    type: string
+    required: true
+  }
+  typePokemon: {
+    type: string
+    required: true
+  }
+  teamScreen: {
+    type: boolean
+    required: true
+  }
 }>()
 </script>
 

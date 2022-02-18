@@ -21,7 +21,7 @@ watch(teamName, (newValue) => {
 
 let questionName: any = reactive({isOpen: false, newName: '', index: 0})
 let alertModal: any = reactive({isOpen: false, msg: ''})
-let pageOffSet: any = reactive({innitialValue: 0})
+let offset: any = ref(0)
 
 const detailsButton = (pokeId: number): void => {
   router.push(`/details/${pokeId}`)
@@ -56,7 +56,7 @@ const saveTeam = () => {
   }
 }
 const deletePokemon = (id: any) => {
-  store.state.createdTeam.findIndex((element, index) => {
+  store.state.createdTeam.findIndex((element: { id: any; }, index: any) => {
     if (element.id === id) {
       store.commit('deletePokemonCreated', index)
     }
@@ -68,14 +68,14 @@ const selectPokemon = (payload: any) => {
 }
 
 const previousPage = (): void => {
-  if (pageOffSet.innitialValue > 9) {
-    pageOffSet.innitialValue -= 10
-    store.dispatch('getApi', pageOffSet.innitialValue)
+  if (offset.value > 9) {
+    offset.value -= 10
+    store.dispatch('getApi', { limit: 10, offset: offset.value })
   }
 }
 const nextPage = (): void => {
-  pageOffSet.innitialValue += 10
-  store.dispatch('getApi', pageOffSet.innitialValue)
+  offset.value += 10
+  store.dispatch('getApi', { limit: 10, offset: offset.value })
 }
 
 onUnmounted(() => {
@@ -122,7 +122,7 @@ onUnmounted(() => {
               <li class="page-item"><a class="page-link" @click="nextPage">Next</a></li>
             </ul>
             <ul class="list-group item-list" v-for="(pokemon) in pokemonList">
-              <li class="list-group-item" :id="`item-${pokemon.id}-pokemon`">
+              <li class="list-group-item">
                 <div class="item-pokemon">
                   <button class="btn btn-sm btn-outline-secondary" @click="detailsButton(pokemon.id)">
                     Details
@@ -179,36 +179,16 @@ onUnmounted(() => {
 .item-list {
   border-radius: 8px;
   width: 380px;
-  margin: auto;
-  margin-top: 2px;
+  margin: 1px auto;
 }
 .img-list {
   height: 60px;
   width: 60px;
 }
-.img-modal {
-  height: 220px;
-  width: 220px;
-}
-.pokemon-modal {
-  background: url("https://st2.depositphotos.com/1906711/11944/v/450/depositphotos_119441904-stock-illustration-pokeball-hanging-in-the-air.jpg");
-  border-radius: 30px;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position-y: center;
-}
 .item-pokemon {
   width: 100%;
   display: flex;
   justify-content: space-between;
-}
-.info-pokemon {
-  width: max-content;
-  margin: auto;
-  color: #00265e;
-  padding-top: 5px;
-  text-align: center;
-  font-size: 1.2em;
 }
 button {
   align-self: center;

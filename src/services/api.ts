@@ -8,7 +8,7 @@ export default class ServicesPokemon {
     static async getPokemon(id: number | string) {
         return await api.get(`pokemon/${id}`)
     }
-    static async getListPokemon(payload: string) {
-         return await api.get(`pokemon?limit=10&offset=${payload}`)
+    static async getListPokemon(payload: any) {
+         return await api.get(`pokemon?limit=${payload.limit}&offset=${payload.offset}`)
     }
 }
