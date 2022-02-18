@@ -1,29 +1,28 @@
 <script setup lang="ts">
-
 import HeaderApp from "./components/header/HeaderApp.vue";
 import { onBeforeMount } from "vue";
 import { useStore } from "vuex";
 
-const store = useStore()
+const store = useStore();
 
 onBeforeMount(() => {
-  store.commit('loading', false)
-  store.commit('clearPokemons', [])
-  store.dispatch('getApi', { limit: 10, offset: 0 })
+  store.commit("loading", false);
+  store.commit("clearPokemons", []);
+  store.dispatch("getApi", { limit: 10, offset: 0 });
   setTimeout(() => {
-    store.commit('loading', true)
-  }, 500)
-})
+    store.commit("loading", true);
+  }, 500);
+});
 </script>
 <template>
   <!-- Application -->
   <div v-if="store.state.loading">
     <header-app />
-    <router-view/>
+    <router-view />
   </div>
   <!-- Loading -->
-  <div class="text-center loading" v-else>
-    <div class="spinner-border" style="width: 4rem; height: 4rem;" role="status">
+  <div v-else class="text-center loading">
+    <div class="spinner-border" style="width: 4rem; height: 4rem" role="status">
       <span class="sr-only"></span>
     </div>
   </div>
@@ -33,7 +32,7 @@ onBeforeMount(() => {
 #app {
   overflow-x: hidden;
   height: 100%;
-  font-family: times new roman,sans-serif;
+  font-family: times new roman, sans-serif;
 }
 .loading {
   margin-top: 45vh;

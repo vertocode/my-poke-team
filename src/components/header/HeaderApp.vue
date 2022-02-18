@@ -1,11 +1,11 @@
 <script lang="ts">
 import SubHeader from "./SubHeader.vue";
 export default {
-  name: 'HeaderApp',
+  name: "HeaderApp",
   components: {
-    SubHeader
-  }
-}
+    SubHeader,
+  },
+};
 </script>
 
 <template>
@@ -21,8 +21,7 @@ export default {
 }
 .header h2 {
   font-size: 2.5em;
-  font-family: KacstOne,serif;
+  font-family: KacstOne, serif;
   font-weight: bolder;
 }
 </style>
-

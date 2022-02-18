@@ -4,12 +4,17 @@
       <div class="d-flex row header">
         <div class="col-6 mt-3">
           <img
-              src="https://cdn.pixabay.com/photo/2016/09/01/09/31/pokemon-1635610_960_720.png"
-              alt="Card image cap"
-          >
+            src="https://cdn.pixabay.com/photo/2016/09/01/09/31/pokemon-1635610_960_720.png"
+            alt="Card image cap"
+          />
         </div>
         <div class="text-end col-6 mt-2">
-          <button type="button" class="btn-close p-4" aria-label="Close" @click="$emit('closeModal')"></button>
+          <button
+            type="button"
+            class="btn-close p-4"
+            aria-label="Close"
+            @click="$emit('closeModal')"
+          ></button>
         </div>
       </div>
       <div class="text-center slot">
@@ -35,7 +40,7 @@
 .bodyMoreDetails {
   overflow-x: hidden;
   overflow-y: scroll;
-  border: solid 2px #ED4040;
+  border: solid 2px #ed4040;
   border-radius: 25px;
   margin: auto 0;
   padding: 20px 50px 50px;

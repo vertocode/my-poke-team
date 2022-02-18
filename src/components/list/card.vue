@@ -1,41 +1,41 @@
 <script lang="ts" setup>
-
 defineProps<{
   teamId: {
-    type: number
-    required: false
-  },
+    type: number;
+    required: false;
+  };
   srcImg: {
-    type: string
-    required: true
-  }
+    type: string;
+    required: true;
+  };
   pokemonName: {
-    type: string
-    required: false
-  }
+    type: string;
+    required: false;
+  };
   defaultName: {
-    type: string
-    required: true
-  }
+    type: string;
+    required: true;
+  };
   typePokemon: {
-    type: string
-    required: true
-  }
+    type: string;
+    required: true;
+  };
   teamScreen: {
-    type: boolean
-    required: true
-  }
-}>()
+    type: boolean;
+    required: true;
+  };
+}>();
 </script>
 
 <template>
   <div class="card m-3 p-3 text-center">
-    <img class="card-img-top" :src="srcImg" alt="Card image cap">
+    <img class="card-img-top" :src="srcImg" alt="Card image cap" />
     <div class="card-body">
-      <h5 class="card-title name-pokemon">{{ pokemonName }}
+      <h5 class="card-title name-pokemon">
+        {{ pokemonName }}
         <button
-            class="btn btn-sm btn-outline-secondary"
-            @click="$emit('editPokemon', teamId)"
+          class="btn btn-sm btn-outline-secondary"
+          @click="$emit('editPokemon', teamId)"
         >
           Edit Name
         </button>
@@ -46,8 +46,16 @@ defineProps<{
       <li>Type: {{ typePokemon }}</li>
     </ul>
     <div class="card-body text-center">
-      <button class="btn btn-sm btn-outline-info m-2" @click="$emit('details')" v-if="teamScreen === true">Details</button>
-      <button class="btn-sm btn-danger" @click="$emit('delete')">Delete Pokemon</button>
+      <button
+        class="btn btn-sm btn-outline-info m-2"
+        @click="$emit('details')"
+        v-if="teamScreen === true"
+      >
+        Details
+      </button>
+      <button class="btn-sm btn-danger" @click="$emit('delete')">
+        Delete Pokemon
+      </button>
     </div>
   </div>
 </template>
@@ -66,4 +74,3 @@ ul {
   list-style-type: none;
 }
 </style>
-
