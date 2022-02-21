@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Card from "../components/list/card.vue";
 import ModalPokemon from "../components/modal/ModalPokemon.vue";
-import { computed, reactive, ref, watch, onUnmounted } from "vue";
+import { computed, reactive, ref, watch, onUnmounted, onMounted } from 'vue'
 import { useStore } from "vuex";
 import { router } from "../router";
 import { useRoute } from "vue-router";
@@ -62,23 +62,31 @@ const saveTeam = () => {
     store.commit("unMountedCreated");
   }
 };
-const deletePokemon = (id: any) => {
-  store.state.createdTeam.findIndex((element: { id: any }, index: any) => {
-    if (element.id === id) {
-      store.commit("deletePokemonCreated", index);
-    }
-  });
+const deletePokemon = (id: number) => {
+    store.state.allPokemons.map((pokemonOfList: any) => {
+      if (pokemonOfList.id === id) {
+        const addButton: any = document.querySelector(`.add-button-${id}`);
+        addButton.setAttribute("class", `btn btn-primary add-button-${id} m-2`);
+      }
+    })
+    store.state.createdTeam.map((pokemonOfTeam: any, index: number) => {
+      if (pokemonOfTeam.id === id) {
+        store.commit("deletePokemonCreated", index);
+      }
+    })
 };
 
-const selectPokemon = (payload: any) => {
-  const isRepeated = store.state.createdTeam.map((pokemon: any) => {
-    return pokemon.id === payload.id;
-  }).includes(true)
+const selectPokemon = (payload: { id: number; }) => {
+  const addButton: any = document.querySelector(`.add-button-${payload.id}`);
+  addButton.setAttribute("class", `btn disabled add-button-${payload.id}`);
+  const isRepeated = store.state.createdTeam
+    .map((pokemon: any) => {
+      return pokemon.id === payload.id;
+    })
+    .includes(true);
 
   if (!isRepeated) {
-    store.state.createdTeam.push(payload);
-  } else {
-
+    store.commit('addPokemonCreated', payload)
   }
 };
 
@@ -87,12 +95,43 @@ const previousPage = (): void => {
     offset.value -= 10;
     store.dispatch("getApi", { limit: 10, offset: offset.value });
   }
+  setTimeout(() =>  {
+    store.state.createdTeam.forEach((pokemon: { id: number; }) => {
+      store.state.allPokemons.forEach((pokemonOfList: { id: number}) => {
+        if (pokemonOfList.id === pokemon.id) {
+          const addButton: any = document.querySelector(`.add-button-${pokemon.id}`);
+          addButton.setAttribute("class", `btn disabled add-button-${pokemon.id}`);
+        }
+      })
+    })
+  }, 200)
 };
 const nextPage = (): void => {
   offset.value += 10;
   store.dispatch("getApi", { limit: 10, offset: offset.value });
+  setTimeout(() =>  {
+    store.state.createdTeam.forEach((pokemon: { id: number; }) => {
+      store.state.allPokemons.forEach((pokemonOfList: { id: number}) => {
+        if (pokemonOfList.id === pokemon.id) {
+          const addButton: any = document.querySelector(`.add-button-${pokemon.id}`);
+          addButton.setAttribute("class", `btn disabled add-button-${pokemon.id}`);
+        }
+      })
+    })
+  }, 200)
 };
-
+onMounted(() => {
+  setTimeout(() =>  {
+    store.state.createdTeam.forEach((pokemon: { id: number; }) => {
+      store.state.allPokemons.forEach((pokemonOfList: { id: number}) => {
+        if (pokemonOfList.id === pokemon.id) {
+          const addButton: any = document.querySelector(`.add-button-${pokemon.id}`);
+          addButton.setAttribute("class", `btn disabled add-button-${pokemon.id}`);
+        }
+      })
+    })
+  }, 200)
+})
 onUnmounted(() => {
   if (!routes.path.includes("details")) {
     store.commit("unMountedCreated");
@@ -179,6 +218,7 @@ onUnmounted(() => {
                 </span>
                 <button
                   class="btn m-2 btn-primary"
+                  :class="(`add-button-${pokemon.id}`)"
                   @click="
                     selectPokemon({
                       id: pokemon.id,
@@ -194,14 +234,12 @@ onUnmounted(() => {
             </li>
           </ul>
           <nav>
-            <ul class="pagina tion">
-              <li class="page -item">
-                <a class="page -link" @click="previousPage" href="#"
-                  >Previous</a
-                >
+            <ul class="pagination">
+              <li class="page-item">
+                <a class="page-link" @click="previousPage">Previous</a>
               </li>
               <li class="page-item">
-                <a class="page-l ink" @click="nextPage" href="#">Next</a>
+                <a class="page-link" @click="nextPage">Next</a>
               </li>
             </ul>
           </nav>

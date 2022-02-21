@@ -19,6 +19,9 @@ export default createStore({
     deleteTeam(state: any, teamId: number): void {
       state.teams.splice(teamId, 1);
     },
+    addPokemonCreated(state: any, payload: any): void {
+      state.createdTeam.push(payload)
+    },
     deletePokemonCreated(state: any, payload: any): void {
       state.createdTeam.splice(payload, 1);
     },
