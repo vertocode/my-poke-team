@@ -39,5 +39,16 @@ onBeforeMount(() => {
 }
 .pagination {
   cursor: pointer;
+  justify-content: center;
+  margin: 25px;
+}
+.previous {
+  background-color: #f1f1f1;
+  color: black;
+}
+
+.next {
+  background-color: #dc3545;
+  color: white;
 }
 </style>

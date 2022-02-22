@@ -102,14 +102,10 @@ const nextPage = (): void => {
     @closeModal="listTeamModal.isOpen = !listTeamModal.isOpen"
   >
     <h1>Pokemon List</h1>
-    <ul class="pagination m-auto">
-      <li class="page-item m-auto">
-        <a class="page-link" @click="previousPage">Previous</a>
-      </li>
-      <li class="page-item m-auto">
-        <a class="page-link" @click="nextPage">Next</a>
-      </li>
-    </ul>
+    <div class='pagination'>
+      <a class="previous" @click="previousPage">&laquo; Previous</a>
+      <a class="next" @click="nextPage">Next &raquo;</a>
+    </div>
     <div>
       <ul
         class="list-group item-list row"
@@ -143,14 +139,10 @@ const nextPage = (): void => {
           </div>
         </li>
       </ul>
-      <ul class="pagination m-auto">
-        <li class="page-item m-auto">
-          <a class="page-link" @click="previousPage">Previous</a>
-        </li>
-        <li class="page-item m-auto">
-          <a class="page-link" @click="nextPage">Next</a>
-        </li>
-      </ul>
+      <div class='pagination'>
+        <a class="previous" @click="previousPage">&laquo; Previous</a>
+        <a class="next" @click="nextPage">Next &raquo;</a>
+      </div>
     </div>
   </ModalPokemon>
   <div class="p-4 row">

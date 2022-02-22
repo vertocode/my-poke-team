@@ -28,49 +28,226 @@ defineProps<{
 </script>
 
 <template>
-  <div class="card m-3 p-3 text-center">
-    <img class="card-img-top" :src="srcImg" alt="Card image cap" />
-    <div class="card-body">
-      <h5 class="card-title name-pokemon">
-        {{ pokemonName }}
+  <figure class="card" :class='`card--${typePokemon}`'>
+    <div class="card__image-container">
+      <img class="card-img-top" :src="srcImg" alt="Card image cap" />
+    </div>
+
+    <figcaption class="card__caption">
+      <div class="row">
         <button
-          class="btn btn-sm btn-outline-secondary"
+          class="btn btn-sm btn-outline-secondary col-8"
           @click="$emit('editPokemon', teamId)"
         >
-          Edit Name
+          Put Name
         </button>
-      </h5>
-    </div>
-    <ul class="text-start">
-      <li>Default name: {{ defaultName }}</li>
-      <li>Type: {{ typePokemon }}</li>
-    </ul>
-    <div class="card-body text-center">
-      <button
-        class="btn btn-sm btn-outline-info m-2"
-        @click="$emit('details')"
-        v-if="teamScreen === true"
-      >
-        Details
-      </button>
-      <button class="btn-sm btn-danger" @click="$emit('delete')">
-        Delete Pokemon
-      </button>
-    </div>
-  </div>
+        <h1 class="card__name col-6 mt-3 font-monospace col-12"><strong>{{ pokemonName }}</strong></h1>
+        <hr>
+      </div>
+      <div>
+        <h3 class="card__name">{{ defaultName }}</h3>
+      </div>
+      <hr>
+      <div class='row m-1 justify-content-center'>
+        <button
+          class="btn-sm btn-info m-2 col-5"
+          @click="$emit('details')"
+          v-if='teamId'
+        >
+          Details
+        </button>
+        <button class="btn-sm btn-danger col-6 text-nowrap" @click="$emit('delete')">
+          Delete
+        </button>
+      </div>
+      <h3 class="card__type">
+        {{ typePokemon }}
+      </h3>
+    </figcaption>
+  </figure>
 </template>
 
-<style>
-.card {
-  border-radius: 18%;
-  box-shadow: 12px 12px 2px 1px rgba(182, 70, 70, 0.2);
+<style lang='scss' scoped>
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Open+Sans+Condensed:300,700');
+body {
+  font-family: "Open Sans", Helvetica, sans-serif;
+  text-align: center;
+  margin: 20px;
 }
-.card-img-top {
+
+img {
+  max-height: 150px;
   margin: auto;
-  height: 150px;
-  width: 150px;
+  display: inline-block;
 }
-ul {
-  list-style-type: none;
+h1, h2, h3, h4, h5 {
+  margin: 0;
+  font-weight: 400;
+}
+
+
+.card {
+  display: inline-block;
+  width: 250px;
+  padding: 1em;
+  border-radius: 15px;
+  margin: 40px 80px;
+  background: #ddd;
+  text-align: left;
+
+  &__caption {
+    background-color: rgba(#ffffff, 0.65);
+    padding: 1em;
+    position: relative;
+    border-radius: 0 0 3px 3px;
+  }
+  &__image-container {
+    background-color: rgba(#000000, 0.7);
+    text-align: center;
+    padding: 1em 1em 0;
+    border-radius: 3px 3px 0 0;
+  }
+
+  &__type {
+    position: absolute;
+    top: 0;
+    right: 1em;
+    transform: translateY(-50%);
+    color: #ffffff;
+    text-transform: uppercase;
+    font-family: "Open Sans Condensed", "Open Sans", helvetica, sans-serif;
+    letter-spacing: 0.1em;
+    padding: 0.25em;
+    line-height: 1;
+    border-radius: 2px;
+    background: #bbbbbb;
+  }
+
+  &__label {
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: 400;
+    display: block;
+    margin-bottom: 3px;
+  }
+
+
+  &__name {
+    font-family: "Open Sans Condensed", "Open Sans", helvetica, sans-serif;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  &__stats {
+    margin: 1em 0;
+    th {
+      font-family: "Open Sans Condensed", "Open Sans", helvetica, sans-serif;
+      text-align: right;
+      font-weight: 300;
+    }
+    width: 100%;
+
+    th, td {
+      width: 50%;
+      padding: 0.25em 0.5em 0;
+    }
+
+  }
+
+  &__abilities {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__ability {
+    margin-top: 1em;
+    flex: 1 0;
+  }
+
+  box-shadow: 0px 5px 20px -10px #111111;
+
+
+  &--normal {
+    background: linear-gradient(110deg, #FDBB2D 0%, #3A1C71 100%);
+    box-shadow: 0px 5px 20px -10px #3A1C71;
+    .card__type {
+      background-color: #C08A53;
+    }
+  }
+
+  &--water {
+    background: linear-gradient(120deg, #1CB5E0 0%, #000851 100%);
+    box-shadow: 0px 5px 20px -10px #000851;
+    .card__type {
+      background-color: #1CB5E0;
+    }
+  }
+  &--electric {
+
+    background: linear-gradient(90deg, rgba(255,222,0,1) 34%, rgba(232,255,153,1) 83%);
+    .card__type {
+      background-color: #000;
+    }
+  }
+  &--fire {
+    background: linear-gradient(0deg, rgba(199,24,0,1) 10%, rgba(252,194,69,1) 100%);
+    .card__type {
+      background-color: rgba(199,24,0,1);
+    }
+  }
+
+  &--psychic {
+
+    background: linear-gradient(140deg, rgba(255,167,249,1) 0%, rgba(255,44,195,1) 39%, rgba(255,227,167,1) 100%);
+    .card__type {
+      background: #ff2cc3;
+    }
+  }
+
+  &--dark {
+    background: linear-gradient(20deg, rgba(25,25,25,1) 0%, rgba(16,11,50,1) 33%, rgba(92,2,73,1) 100%);
+    .card__type {
+      background: #5c0249;
+    }
+  }
+  &--grass {
+    background: linear-gradient(140deg, rgba(196,218,61,1) 0%, rgba(110,127,14,1) 69%, rgba(39,80,9,1) 100%);
+
+    .card__type {
+      background: #6e7f0e;
+    }
+  }
+
+  &--ice {
+    background: linear-gradient(230deg, rgba(202,234,246,1) 0%, rgba(160,234,241,1) 46%, rgba(111,184,235,1) 100%);
+    .card__type {
+      background: #6fb8eb;
+    }
+  }
+
+  &--fairy {
+    background: linear-gradient(45deg, rgba(255,230,240,1) 0%, rgba(255,197,224,1) 34%, rgba(255,166,185,1) 71%, rgba(255,138,149,1) 100%);
+
+    .card__type {
+      background: #ff8a95;
+    }
+  }
+
+  position: relative;
+  transition: 0.4s;
+
+  @for $i from 1 through 9 {
+    &:nth-child(#{$i}) {
+      $rotation: (5 - random(10)) + deg;
+      transform: translateY(0px) rotate($rotation);
+    }
+  }
+
+  &:hover {
+    z-index: 5;
+    box-shadow: 0px 13px 30px -15px #000000;
+    transform:translateY(-10px);
+  }
 }
 </style>

@@ -190,36 +190,27 @@ onUnmounted(() => {
         </div>
       </div>
       <div class="row">
-        <div class="col-4">
-          <ul class="pagination">
-            <li class="page-item">
-              <a class="page-link" @click="previousPage">Previous</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" @click="nextPage">Next</a>
-            </li>
-          </ul>
-          <ul class="list-group item-list" v-for="pokemon in pokemonList">
-            <li class="list-group-item">
-              <div class="item-pokemon">
-                <button
-                  class="btn btn-sm btn-outline-secondary"
-                  @click="detailsButton(pokemon.id)"
-                >
-                  Details
-                </button>
-                <span class="m-3">
+        <div class="col-3">
+          <div class='pagination'>
+            <a class="previous" @click="previousPage">&laquo; Previous</a>
+            <a class="next" @click="nextPage">Next &raquo;</a>
+          </div>
+          <div v-for="pokemon in pokemonList">
+            <div class='item-list'>
+              <div class="card text-center">
+                <div class="card-header">
                   <img
                     class="img-list"
                     :src="pokemon.front_default"
                     alt="img-pokemon"
                   />
-                  {{ pokemon.name }}
-                </span>
-                <button
-                  class="btn m-2 btn-primary"
-                  :class="(`add-button-${pokemon.id}`)"
-                  @click="
+                  <h5 class="card-title">{{ pokemon.name }}</h5>
+                </div>
+                <div class="card-body">
+                  <button
+                    class="btn m-2 btn-primary"
+                    :class="(`add-button-${pokemon.id}`)"
+                    @click="
                     selectPokemon({
                       id: pokemon.id,
                       default_name: pokemon.name,
@@ -227,24 +218,27 @@ onUnmounted(() => {
                       srcImg: pokemon.front_default,
                     })
                   "
-                >
-                  Add
-                </button>
+                  >
+                    Add Pokemon
+                  </button>
+                </div>
+                <div class="card-footer text-muted">
+                  <button
+                    class="btn-sm btn-info"
+                    @click="detailsButton(pokemon.id)"
+                  >
+                    Details
+                  </button>
+                </div>
               </div>
-            </li>
-          </ul>
-          <nav>
-            <ul class="pagination">
-              <li class="page-item">
-                <a class="page-link" @click="previousPage">Previous</a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" @click="nextPage">Next</a>
-              </li>
-            </ul>
-          </nav>
+            </div>
+          </div>
+          <div class='pagination'>
+            <a class="previous" @click="previousPage">&laquo; Previous</a>
+            <a class="next" @click="nextPage">Next &raquo;</a>
+          </div>
         </div>
-        <div class="col-8">
+        <div class="col-9 p-5">
           <h2 class="text-center text-decoration-underline">Your new team:</h2>
           <div class="row">
             <card
@@ -268,25 +262,29 @@ onUnmounted(() => {
 #createTeam {
   display: block;
 }
-.item-list {
-  border-radius: 8px;
-  width: 380px;
-  margin: 1px auto;
-}
+
 .img-list {
   height: 60px;
   width: 60px;
 }
-.item-pokemon {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
+.item-list {
+  list-style: none;
+  width: max-content;
+  border-radius: 8px;
+  margin: 1px auto;
+  box-shadow: 0 5px 20px -10px #111111;
 }
 button {
   align-self: center;
 }
-.pagination {
-  justify-content: center;
-  cursor: pointer;
+a {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+}
+
+a:hover {
+  background-color: #ddd;
+  color: black;
 }
 </style>
